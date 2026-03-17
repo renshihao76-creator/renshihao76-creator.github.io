@@ -1,48 +1,271 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>医学笔记</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>医学笔记 | 任世豪</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            background: #f2f2f2;
-            padding: 40px;
+            font-family: "Microsoft YaHei", Arial, sans-serif;
+            background: linear-gradient(135deg, #eef2f7, #dfe7f1);
+            color: #1f2937;
+            animation: fadePage 0.8s ease;
         }
 
-        .box {
-            background: white;
-            max-width: 700px;
-            margin: auto;
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 0 12px rgba(0,0,0,0.08);
+        @keyframes fadePage {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        a {
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        header {
+            padding: 28px 0;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo a {
             text-decoration: none;
-            color: #333;
+            font-size: 28px;
+            font-weight: bold;
+            color: #111827;
         }
 
-        h1 {
-            color: #222;
+        .nav-links a {
+            text-decoration: none;
+            color: #374151;
+            margin-left: 24px;
+            font-size: 16px;
+            transition: 0.25s ease;
         }
 
-        p {
-            color: #555;
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #111827;
+            font-weight: bold;
+        }
+
+        .hero {
+            padding: 40px 0 30px;
+            text-align: center;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 8px 14px;
+            background: rgba(255,255,255,0.78);
+            border-radius: 999px;
+            font-size: 14px;
+            color: #4b5563;
+            margin-bottom: 16px;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            color: #111827;
+            margin-bottom: 16px;
+        }
+
+        .hero p {
+            max-width: 760px;
+            margin: 0 auto;
+            font-size: 19px;
             line-height: 1.8;
+            color: #6b7280;
+        }
+
+        .section {
+            padding: 40px 0 70px;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.92);
+            border-radius: 22px;
+            padding: 28px;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.06);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 36px rgba(0,0,0,0.08);
+        }
+
+        .card h2 {
+            font-size: 24px;
+            margin-bottom: 16px;
+            color: #111827;
+        }
+
+        .card p {
+            color: #6b7280;
+            line-height: 1.9;
+            margin-bottom: 20px;
+        }
+
+        .list {
+            color: #4b5563;
+            line-height: 2;
+            padding-left: 18px;
+            margin-bottom: 24px;
+        }
+
+        .btn {
+            display: inline-block;
+            text-decoration: none;
+            padding: 12px 20px;
+            border-radius: 12px;
+            background: #111827;
+            color: white;
+            transition: 0.25s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 18px rgba(17,24,39,0.16);
+        }
+
+        .bottom-box {
+            margin-top: 36px;
+            background: rgba(255,255,255,0.86);
+            border-radius: 20px;
+            padding: 28px;
+            box-shadow: 0 10px 26px rgba(0,0,0,0.05);
+        }
+
+        .bottom-box h3 {
+            font-size: 24px;
+            margin-bottom: 14px;
+        }
+
+        .bottom-box p {
+            color: #6b7280;
+            line-height: 1.9;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px 0 50px;
+            color: #6b7280;
+            font-size: 15px;
+        }
+
+        @media (max-width: 900px) {
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            .hero h1 {
+                font-size: 38px;
+            }
+
+            .nav-links {
+                display: none;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="box">
-        <p><a href="index.html">← 返回首页</a></p>
-        <h1>医学笔记</h1>
-        <p>这里以后放我的医学学习内容。</p>
-        <p>例如：</p>
-        <p>1. 系统解剖学笔记</p>
-        <p>2. 生理学重点整理</p>
-        <p>3. 病理学复习内容</p>
-    </div>
+    <header>
+        <div class="container navbar">
+            <div class="logo"><a href="index.html">任世豪</a></div>
+            <div class="nav-links">
+                <a href="notes.html" class="active">医学笔记</a>
+                <a href="ai.html">AI学习</a>
+                <a href="paper.html">论文思考</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="hero">
+            <div class="tag">Medical Notes</div>
+            <h1>医学笔记</h1>
+            <p>
+                这一页用于整理我的医学学习内容。先把主要学科板块搭起来，
+                后面再逐步往每个模块里补充具体笔记和复习材料。
+            </p>
+        </section>
+
+        <section class="section">
+            <div class="cards">
+                <div class="card">
+                    <h2>系统解剖学</h2>
+                    <p>整理人体结构、器官位置与系统之间的关系，建立清晰的空间和结构框架。</p>
+                    <ul class="list">
+                        <li>骨骼与肌肉</li>
+                        <li>心血管系统</li>
+                        <li>神经系统</li>
+                    </ul>
+                    <a href="#" class="btn">后续补充</a>
+                </div>
+
+                <div class="card">
+                    <h2>生理学</h2>
+                    <p>重点记录各系统正常功能的机制和逻辑，形成“结构—功能—调节”的理解链条。</p>
+                    <ul class="list">
+                        <li>血液循环调节</li>
+                        <li>呼吸与气体交换</li>
+                        <li>内分泌调节</li>
+                    </ul>
+                    <a href="#" class="btn">后续补充</a>
+                </div>
+
+                <div class="card">
+                    <h2>病理学</h2>
+                    <p>把疾病发生发展的规律、基本病理变化与临床联系慢慢整合起来。</p>
+                    <ul class="list">
+                        <li>炎症与修复</li>
+                        <li>细胞损伤</li>
+                        <li>肿瘤基础</li>
+                    </ul>
+                    <a href="#" class="btn">后续补充</a>
+                </div>
+            </div>
+
+            <div class="bottom-box">
+                <h3>我的整理思路</h3>
+                <p>
+                    我希望这个页面不是简单堆材料，而是把课程内容按模块拆开，形成后续复习时能快速回看的结构。
+                    后面我会继续加入每门课的重点、易错点和阶段复习记录。
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        © 2026 任世豪 · Medical Notes
+    </footer>
 </body>
 </html>
