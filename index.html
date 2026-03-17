@@ -1,77 +1,317 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>任世豪 | 个人网站</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            background: #f2f2f2;
+            font-family: "Microsoft YaHei", Arial, sans-serif;
+            background: linear-gradient(135deg, #eef2f7, #dfe7f1);
+            color: #1f2937;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        header {
+            padding: 28px 0;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: #111827;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #374151;
+            margin-left: 24px;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #111827;
+        }
+
+        .hero {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 40px;
+            min-height: 75vh;
+            padding: 40px 0 60px;
+        }
+
+        .hero-text {
+            flex: 1;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 8px 14px;
+            background: rgba(255,255,255,0.7);
+            border-radius: 999px;
+            font-size: 14px;
+            margin-bottom: 20px;
+            color: #374151;
+        }
+
+        .hero h1 {
+            font-size: 56px;
+            line-height: 1.2;
+            margin-bottom: 18px;
+            color: #111827;
+        }
+
+        .hero p {
+            font-size: 20px;
+            line-height: 1.8;
+            color: #4b5563;
+            margin-bottom: 30px;
+        }
+
+        .buttons a {
+            display: inline-block;
+            text-decoration: none;
+            padding: 14px 24px;
+            border-radius: 12px;
+            margin-right: 14px;
+            margin-bottom: 12px;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+        .btn-main {
+            background: #111827;
+            color: white;
+        }
+
+        .btn-main:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(17,24,39,0.18);
+        }
+
+        .btn-sub {
+            background: white;
+            color: #111827;
+            border: 1px solid #d1d5db;
+        }
+
+        .btn-sub:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+        }
+
+        .hero-card {
+            flex: 1;
+            background: rgba(255,255,255,0.85);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            padding: 32px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.08);
+        }
+
+        .hero-card h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #111827;
+        }
+
+        .info-item {
+            padding: 16px 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .info-item:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            font-size: 14px;
+            color: #6b7280;
+            margin-bottom: 6px;
+        }
+
+        .info-value {
+            font-size: 18px;
+            color: #1f2937;
+        }
+
+        .section {
+            padding: 70px 0;
+        }
+
+        .section-title {
+            font-size: 34px;
+            margin-bottom: 18px;
             text-align: center;
-            padding: 50px;
+            color: #111827;
+        }
+
+        .section-desc {
+            text-align: center;
+            color: #6b7280;
+            font-size: 18px;
+            margin-bottom: 40px;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
         }
 
         .card {
             background: white;
-            padding: 40px;
-            border-radius: 12px;
-            max-width: 600px;
-            margin: auto;
-            box-shadow: 0 0 12px rgba(0,0,0,0.08);
+            border-radius: 20px;
+            padding: 28px;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.06);
+            transition: 0.3s;
         }
 
-        h1 {
-            color: #222;
-            margin-bottom: 10px;
+        .card:hover {
+            transform: translateY(-6px);
         }
 
-        p {
-            color: #666;
+        .card h3 {
+            font-size: 24px;
+            margin-bottom: 14px;
+            color: #111827;
+        }
+
+        .card p {
+            color: #6b7280;
             line-height: 1.8;
+            margin-bottom: 20px;
         }
 
-        hr {
-            margin: 30px 0;
-        }
-
-        .nav {
-            margin-top: 30px;
-        }
-
-        .nav a {
-            display: inline-block;
-            margin: 10px;
-            padding: 12px 20px;
-            background: #333;
-            color: white;
+        .card a {
             text-decoration: none;
-            border-radius: 8px;
+            color: #111827;
+            font-weight: bold;
         }
 
-        .nav a:hover {
-            background: #555;
+        footer {
+            text-align: center;
+            padding: 30px 0 50px;
+            color: #6b7280;
+            font-size: 15px;
+        }
+
+        @media (max-width: 900px) {
+            .hero {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            .hero h1 {
+                font-size: 40px;
+            }
+
+            .nav-links {
+                display: none;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="card">
-        <h1>任世豪</h1>
-        <p>医学生｜AI研究｜个人网站</p>
-
-        <hr>
-
-        <h2>关于我</h2>
-        <p>你好，我是任世豪，目前是一名医学生。这个网站用来整理我的医学笔记、AI学习内容和论文思考。</p>
-
-        <div class="nav">
-            <a href="notes.html">医学笔记</a>
-            <a href="ai.html">AI学习</a>
-            <a href="paper.html">论文思考</a>
+    <header>
+        <div class="container navbar">
+            <div class="logo">任世豪</div>
+            <div class="nav-links">
+                <a href="notes.html">医学笔记</a>
+                <a href="ai.html">AI学习</a>
+                <a href="paper.html">论文思考</a>
+            </div>
         </div>
+    </header>
 
-        <hr>
+    <main class="container">
+        <section class="hero">
+            <div class="hero-text">
+                <div class="tag">医学生 · AI研究 · 个人网站</div>
+                <h1>把学习、研究和思考，整理成可见的积累</h1>
+                <p>
+                    你好，我是任世豪。目前是一名医学生。这个网站用来整理我的医学笔记、
+                    AI学习记录以及论文研究思考，让零散的内容慢慢变成系统的积累。
+                </p>
+                <div class="buttons">
+                    <a class="btn-main" href="notes.html">进入医学笔记</a>
+                    <a class="btn-sub" href="paper.html">查看论文思考</a>
+                </div>
+            </div>
 
-        <p>邮箱：renshihao76@outlook.com</p>
-    </div>
+            <div class="hero-card">
+                <h2>个人信息</h2>
+                <div class="info-item">
+                    <div class="info-label">身份</div>
+                    <div class="info-value">大二医学生</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">关注方向</div>
+                    <div class="info-value">医学学习 / AI研究 / 学术写作</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">研究兴趣</div>
+                    <div class="info-value">声音权、语音克隆、人格权益保护</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">联系邮箱</div>
+                    <div class="info-value">renshihao76@outlook.com</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">网站内容</h2>
+            <p class="section-desc">先把三个核心板块立住，后面再往里面填内容。</p>
+
+            <div class="cards">
+                <div class="card">
+                    <h3>医学笔记</h3>
+                    <p>整理课程笔记、重点知识和复习内容，让学习材料更系统、更方便回看。</p>
+                    <a href="notes.html">进入页面 →</a>
+                </div>
+
+                <div class="card">
+                    <h3>AI学习</h3>
+                    <p>记录我对人工智能、语音技术和AI应用场景的理解，慢慢建立自己的知识框架。</p>
+                    <a href="ai.html">进入页面 →</a>
+                </div>
+
+                <div class="card">
+                    <h3>论文思考</h3>
+                    <p>集中放论文选题、问题意识、参考资料和阶段性思考，形成长期积累。</p>
+                    <a href="paper.html">进入页面 →</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        © 2026 任世豪 · Personal Website
+    </footer>
 </body>
 </html>
