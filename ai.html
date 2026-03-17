@@ -1,10 +1,29 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>AI学习 | 任世豪</title>
+    <meta name="description" content="任世豪的 AI 学习页面，记录基础概念、应用场景与学习过程。" />
     <style>
+        :root {
+            --bg: #e9eef5;
+            --bg-deep: #dde6f0;
+            --surface: rgba(255, 255, 255, 0.74);
+            --surface-strong: rgba(255, 255, 255, 0.88);
+            --line: rgba(15, 23, 42, 0.08);
+            --text: #0f172a;
+            --text-soft: #475569;
+            --text-faint: #64748b;
+            --primary: #0f172a;
+            --shadow-lg: 0 20px 60px rgba(15, 23, 42, 0.08);
+            --shadow-md: 0 10px 30px rgba(15, 23, 42, 0.06);
+            --radius-xl: 28px;
+            --radius-lg: 22px;
+            --radius-md: 16px;
+            --container: 1180px;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -16,211 +35,365 @@
         }
 
         body {
-            font-family: "Microsoft YaHei", Arial, sans-serif;
-            background: linear-gradient(135deg, #eef2f7, #dfe7f1);
-            color: #1f2937;
-            animation: fadePage 0.8s ease;
+            font-family: "Microsoft YaHei", "PingFang SC", "Helvetica Neue", Arial, sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(circle at 14% 20%, rgba(255,255,255,0.62), transparent 23%),
+                radial-gradient(circle at 88% 16%, rgba(255,255,255,0.42), transparent 24%),
+                linear-gradient(180deg, var(--bg) 0%, var(--bg-deep) 100%);
+            overflow-x: hidden;
         }
 
-        @keyframes fadePage {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .container {
+            width: min(var(--container), 92%);
+            margin: 0 auto;
+        }
+
+        .bg-orb {
+            position: fixed;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            filter: blur(72px);
+            opacity: 0.22;
+            z-index: -1;
+            pointer-events: none;
+            animation: floatOrb 11s ease-in-out infinite;
+        }
+
+        .orb-1 {
+            right: -120px;
+            top: -130px;
+            background: rgba(255,255,255,0.62);
+        }
+
+        .orb-2 {
+            left: -150px;
+            bottom: 8%;
+            background: rgba(203, 213, 225, 0.58);
+            animation-delay: -4.5s;
+        }
+
+        @keyframes floatOrb {
+            0%, 100% { transform: translateY(0) translateX(0); }
+            50% { transform: translateY(18px) translateX(10px); }
+        }
+
+        .site-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 18px 0;
+            transition: all 0.35s ease;
+        }
+
+        .site-header.scrolled {
+            padding: 12px 0;
+            backdrop-filter: blur(16px);
+            background: rgba(233, 238, 245, 0.58);
+            border-bottom: 1px solid rgba(15, 23, 42, 0.06);
+        }
+
+        .nav-shell {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .brand {
+            font-size: 22px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 28px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            position: relative;
+            font-size: 15px;
+            color: var(--text-soft);
+            transition: color 0.25s ease, transform 0.25s ease;
+        }
+
+        .nav-links a::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -8px;
+            width: 0;
+            height: 2px;
+            border-radius: 999px;
+            background: var(--text);
+            transition: width 0.28s ease;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--text);
+            transform: translateY(-1px);
+        }
+
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .hero {
+            padding: 72px 0 34px;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(28px);
+            animation: riseIn 0.95s cubic-bezier(.22,1,.36,1) forwards;
+        }
+
+        @keyframes riseIn {
             to {
                 opacity: 1;
                 transform: translateY(0);
             }
         }
 
-        .container {
-            width: 90%;
-            max-width: 1100px;
-            margin: 0 auto;
-        }
-
-        header {
-            padding: 28px 0;
-        }
-
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo a {
-            text-decoration: none;
-            font-size: 28px;
-            font-weight: bold;
-            color: #111827;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: #374151;
-            margin-left: 24px;
-            font-size: 16px;
-            transition: 0.25s ease;
-        }
-
-        .nav-links a:hover,
-        .nav-links a.active {
-            color: #111827;
-            font-weight: bold;
-        }
-
-        .hero {
-            padding: 40px 0 30px;
-            text-align: center;
-        }
-
-        .tag {
+        .eyebrow {
             display: inline-block;
-            padding: 8px 14px;
-            background: rgba(255,255,255,0.78);
+            padding: 10px 14px;
             border-radius: 999px;
+            background: rgba(255,255,255,0.64);
+            border: 1px solid rgba(255,255,255,0.56);
+            color: var(--text-soft);
             font-size: 14px;
-            color: #4b5563;
-            margin-bottom: 16px;
+            backdrop-filter: blur(10px);
+            margin-bottom: 18px;
         }
 
         .hero h1 {
-            font-size: 48px;
-            color: #111827;
-            margin-bottom: 16px;
+            font-size: clamp(56px, 7vw, 88px);
+            line-height: 1.04;
+            letter-spacing: -1.8px;
+            margin-bottom: 18px;
         }
 
         .hero p {
-            max-width: 760px;
+            max-width: 860px;
             margin: 0 auto;
-            font-size: 19px;
-            line-height: 1.8;
-            color: #6b7280;
+            font-size: 22px;
+            line-height: 1.85;
+            color: var(--text-soft);
         }
 
         .section {
-            padding: 40px 0 70px;
+            padding: 38px 0 90px;
         }
 
-        .cards {
+        .grid-3 {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
+            gap: 22px;
         }
 
         .card {
-            background: rgba(255,255,255,0.92);
-            border-radius: 22px;
-            padding: 28px;
-            box-shadow: 0 12px 30px rgba(0,0,0,0.06);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            background: linear-gradient(180deg, rgba(255,255,255,0.84) 0%, rgba(255,255,255,0.72) 100%);
+            border: 1px solid rgba(255,255,255,0.58);
+            backdrop-filter: blur(12px);
+            border-radius: var(--radius-lg);
+            padding: 28px 26px;
+            box-shadow: var(--shadow-md);
+            overflow: hidden;
+            transition: transform 0.32s ease, box-shadow 0.32s ease, border-color 0.32s ease;
+        }
+
+        .card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.28), transparent 44%);
+            opacity: 0;
+            transition: opacity 0.32s ease;
+            pointer-events: none;
         }
 
         .card:hover {
             transform: translateY(-8px);
-            box-shadow: 0 20px 36px rgba(0,0,0,0.08);
+            box-shadow: 0 22px 46px rgba(15, 23, 42, 0.08);
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card-tag {
+            display: inline-block;
+            padding: 7px 10px;
+            border-radius: 999px;
+            background: rgba(15, 23, 42, 0.05);
+            color: var(--text-faint);
+            font-size: 12px;
+            margin-bottom: 16px;
         }
 
         .card h2 {
-            font-size: 24px;
-            margin-bottom: 16px;
-            color: #111827;
+            font-size: 30px;
+            margin-bottom: 14px;
+            letter-spacing: -0.5px;
         }
 
         .card p {
-            color: #6b7280;
-            line-height: 1.9;
-            margin-bottom: 20px;
+            color: var(--text-soft);
+            font-size: 18px;
+            line-height: 1.85;
+            margin-bottom: 18px;
         }
 
         .list {
-            color: #4b5563;
+            padding-left: 20px;
+            color: var(--text-soft);
             line-height: 2;
-            padding-left: 18px;
+            font-size: 17px;
             margin-bottom: 24px;
         }
 
         .btn {
-            display: inline-block;
-            text-decoration: none;
-            padding: 12px 20px;
-            border-radius: 12px;
-            background: #111827;
-            color: white;
-            transition: 0.25s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 46px;
+            padding: 0 18px;
+            border-radius: 14px;
+            background: linear-gradient(180deg, #111827 0%, #0f172a 100%);
+            color: #fff;
+            font-size: 15px;
+            font-weight: 700;
+            box-shadow: 0 12px 24px rgba(15, 23, 42, 0.14);
+            transition: transform 0.28s ease, box-shadow 0.28s ease;
         }
 
         .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 18px rgba(17,24,39,0.16);
+            transform: translateY(-3px);
+            box-shadow: 0 18px 30px rgba(15, 23, 42, 0.18);
         }
 
-        .bottom-box {
-            margin-top: 36px;
-            background: rgba(255,255,255,0.86);
-            border-radius: 20px;
-            padding: 28px;
-            box-shadow: 0 10px 26px rgba(0,0,0,0.05);
+        .feature-panel {
+            margin-top: 26px;
+            background: linear-gradient(180deg, rgba(255,255,255,0.82) 0%, rgba(255,255,255,0.7) 100%);
+            border: 1px solid rgba(255,255,255,0.56);
+            backdrop-filter: blur(12px);
+            border-radius: var(--radius-xl);
+            padding: 30px 28px;
+            box-shadow: var(--shadow-md);
         }
 
-        .bottom-box h3 {
-            font-size: 24px;
+        .feature-panel h3 {
+            font-size: 32px;
             margin-bottom: 14px;
         }
 
-        .bottom-box p {
-            color: #6b7280;
+        .feature-panel p {
+            color: var(--text-soft);
+            font-size: 19px;
             line-height: 1.9;
         }
 
-        footer {
+        .footer {
+            padding: 24px 0 56px;
             text-align: center;
-            padding: 20px 0 50px;
-            color: #6b7280;
-            font-size: 15px;
+            color: var(--text-faint);
+            font-size: 14px;
         }
 
-        @media (max-width: 900px) {
-            .cards {
+        .reveal {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity 0.8s cubic-bezier(.22,1,.36,1), transform 0.8s cubic-bezier(.22,1,.36,1);
+        }
+
+        .reveal.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 1080px) {
+            .grid-3 {
                 grid-template-columns: 1fr;
             }
+        }
 
-            .hero h1 {
-                font-size: 38px;
+        @media (max-width: 760px) {
+            .site-header {
+                position: static;
             }
 
             .nav-links {
                 display: none;
             }
+
+            .brand {
+                font-size: 20px;
+            }
+
+            .hero {
+                padding-top: 42px;
+            }
+
+            .hero h1 {
+                font-size: 46px;
+                letter-spacing: -1px;
+            }
+
+            .hero p,
+            .card p,
+            .feature-panel p {
+                font-size: 17px;
+            }
+
+            .card h2,
+            .feature-panel h3 {
+                font-size: 24px;
+            }
+
+            .list {
+                font-size: 16px;
+            }
         }
     </style>
 </head>
 <body>
-    <header>
-        <div class="container navbar">
-            <div class="logo"><a href="index.html">任世豪</a></div>
-            <div class="nav-links">
+    <div class="bg-orb orb-1"></div>
+    <div class="bg-orb orb-2"></div>
+
+    <header class="site-header" id="siteHeader">
+        <div class="container nav-shell">
+            <a href="index.html" class="brand">任世豪</a>
+            <nav class="nav-links">
                 <a href="notes.html">医学笔记</a>
                 <a href="ai.html" class="active">AI学习</a>
                 <a href="paper.html">论文思考</a>
-            </div>
+            </nav>
         </div>
     </header>
 
     <main class="container">
         <section class="hero">
-            <div class="tag">AI Learning</div>
+            <div class="eyebrow">AI Learning</div>
             <h1>AI学习</h1>
             <p>
-                这一页用来整理我对人工智能相关内容的学习过程，包括基础概念、
-                应用场景，以及我在学习中的理解和记录。
+                这一页用来整理我对人工智能相关内容的学习过程，包括基础概念、应用场景，
+                以及我在学习中的理解、问题和阶段性记录。
             </p>
         </section>
 
-        <section class="section">
-            <div class="cards">
-                <div class="card">
+        <section class="section reveal">
+            <div class="grid-3">
+                <article class="card">
+                    <div class="card-tag">Concepts</div>
                     <h2>基础概念</h2>
                     <p>先把人工智能、大模型、语音技术、机器学习这些核心概念的基本框架搭起来。</p>
                     <ul class="list">
@@ -228,10 +401,11 @@
                         <li>语音识别与合成</li>
                         <li>机器学习入门</li>
                     </ul>
-                    <a href="#" class="btn">后续补充</a>
-                </div>
+                    <a class="btn" href="#">后续补充</a>
+                </article>
 
-                <div class="card">
+                <article class="card">
+                    <div class="card-tag">Applications</div>
                     <h2>应用场景</h2>
                     <p>关注 AI 在现实中的落地，尤其是医学场景和语音相关技术的实际应用。</p>
                     <ul class="list">
@@ -239,22 +413,23 @@
                         <li>语音克隆应用</li>
                         <li>智能问答系统</li>
                     </ul>
-                    <a href="#" class="btn">后续补充</a>
-                </div>
+                    <a class="btn" href="#">后续补充</a>
+                </article>
 
-                <div class="card">
+                <article class="card">
+                    <div class="card-tag">Logs</div>
                     <h2>学习记录</h2>
-                    <p>记录我自己在学习 AI 过程中的问题、理解和阶段性收获，形成可回看的轨迹。</p>
+                    <p>记录我在学习 AI 过程中的问题、理解和阶段性收获，形成可回看的轨迹。</p>
                     <ul class="list">
                         <li>阶段学习笔记</li>
                         <li>重点问题整理</li>
                         <li>术语理解记录</li>
                     </ul>
-                    <a href="#" class="btn">后续补充</a>
-                </div>
+                    <a class="btn" href="#">后续补充</a>
+                </article>
             </div>
 
-            <div class="bottom-box">
+            <div class="feature-panel reveal" style="transition-delay: .08s;">
                 <h3>我的关注重点</h3>
                 <p>
                     我更关心 AI 技术与现实问题之间的连接，尤其是语音克隆、声音利益保护、
@@ -264,8 +439,29 @@
         </section>
     </main>
 
-    <footer>
+    <footer class="footer">
         © 2026 任世豪 · AI Learning
     </footer>
+
+    <script>
+        const header = document.getElementById("siteHeader");
+        window.addEventListener("scroll", () => {
+            if (window.scrollY > 20) {
+                header.classList.add("scrolled");
+            } else {
+                header.classList.remove("scrolled");
+            }
+        });
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("show");
+                }
+            });
+        }, { threshold: 0.16 });
+
+        document.querySelectorAll(".reveal").forEach(el => observer.observe(el));
+    </script>
 </body>
 </html>
