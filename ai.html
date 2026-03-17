@@ -4,464 +4,1079 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>AI学习 | 任世豪</title>
-    <meta name="description" content="任世豪的 AI 学习页面，记录基础概念、应用场景与学习过程。" />
-    <style>
-        :root {
-            --bg: #e9eef5;
-            --bg-deep: #dde6f0;
-            --surface: rgba(255, 255, 255, 0.74);
-            --surface-strong: rgba(255, 255, 255, 0.88);
-            --line: rgba(15, 23, 42, 0.08);
-            --text: #0f172a;
-            --text-soft: #475569;
-            --text-faint: #64748b;
-            --primary: #0f172a;
-            --shadow-lg: 0 20px 60px rgba(15, 23, 42, 0.08);
-            --shadow-md: 0 10px 30px rgba(15, 23, 42, 0.06);
-            --radius-xl: 28px;
-            --radius-lg: 22px;
-            --radius-md: 16px;
-            --container: 1180px;
-        }
+    <meta name="description" content="任世豪的 AI 学习页面，用于整理基础框架、应用观察与学习记录。" />
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<style>
+    :root {
+        --bg-1: #f8f6f1;
+        --bg-2: #eef1f5;
+        --surface: rgba(255, 255, 255, 0.78);
+        --surface-strong: rgba(255, 255, 255, 0.9);
+        --line: rgba(15, 23, 42, 0.10);
+        --line-strong: rgba(15, 23, 42, 0.18);
+        --text: #111827;
+        --text-soft: #475569;
+        --text-faint: #768396;
+        --accent: #0f172a;
+        --serif: "Iowan Old Style", "Palatino Linotype", "Times New Roman", "Songti SC", "STSong", serif;
+        --sans: "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+        --max-width: 1200px;
+        --radius-xl: 30px;
+        --radius-lg: 24px;
+        --radius-md: 16px;
+        --shadow-soft: 0 10px 24px rgba(15, 23, 42, 0.04);
+        --shadow-lg: 0 24px 64px rgba(15, 23, 42, 0.07);
+    }
 
-        html {
-            scroll-behavior: smooth;
-        }
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
 
-        body {
-            font-family: "Microsoft YaHei", "PingFang SC", "Helvetica Neue", Arial, sans-serif;
-            color: var(--text);
-            background:
-                radial-gradient(circle at 14% 20%, rgba(255,255,255,0.62), transparent 23%),
-                radial-gradient(circle at 88% 16%, rgba(255,255,255,0.42), transparent 24%),
-                linear-gradient(180deg, var(--bg) 0%, var(--bg-deep) 100%);
-            overflow-x: hidden;
-        }
+    html {
+        scroll-behavior: smooth;
+    }
 
-        a {
-            color: inherit;
-            text-decoration: none;
-        }
+    body {
+        min-height: 100vh;
+        color: var(--text);
+        font-family: var(--sans);
+        background:
+            radial-gradient(circle at 14% 10%, rgba(255, 255, 255, 0.96), transparent 28%),
+            radial-gradient(circle at 88% 14%, rgba(255, 255, 255, 0.6), transparent 22%),
+            linear-gradient(180deg, var(--bg-1) 0%, var(--bg-2) 100%);
+        overflow-x: hidden;
+    }
 
-        .container {
-            width: min(var(--container), 92%);
-            margin: 0 auto;
-        }
+    body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 50%;
+        width: 1px;
+        background: linear-gradient(180deg, transparent, rgba(15, 23, 42, 0.08), transparent);
+        transform: translateX(-50%);
+        pointer-events: none;
+        z-index: -2;
+        opacity: 0.7;
+    }
 
-        .bg-orb {
-            position: fixed;
-            width: 500px;
-            height: 500px;
-            border-radius: 50%;
-            filter: blur(72px);
-            opacity: 0.22;
-            z-index: -1;
-            pointer-events: none;
-            animation: floatOrb 11s ease-in-out infinite;
-        }
+    body::after {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background:
+            radial-gradient(circle at 25% 30%, rgba(15, 23, 42, 0.02), transparent 30%),
+            radial-gradient(circle at 78% 72%, rgba(15, 23, 42, 0.028), transparent 28%);
+        pointer-events: none;
+        z-index: -3;
+    }
 
-        .orb-1 {
-            right: -120px;
-            top: -130px;
-            background: rgba(255,255,255,0.62);
-        }
+    ::selection {
+        background: rgba(15, 23, 42, 0.12);
+        color: var(--accent);
+    }
 
-        .orb-2 {
-            left: -150px;
-            bottom: 8%;
-            background: rgba(203, 213, 225, 0.58);
-            animation-delay: -4.5s;
-        }
+    a {
+        color: inherit;
+        text-decoration: none;
+    }
 
-        @keyframes floatOrb {
-            0%, 100% { transform: translateY(0) translateX(0); }
-            50% { transform: translateY(18px) translateX(10px); }
-        }
+    img {
+        max-width: 100%;
+        display: block;
+    }
 
-        .site-header {
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            padding: 18px 0;
-            transition: all 0.35s ease;
-        }
+    .container {
+        width: min(var(--max-width), 92%);
+        margin: 0 auto;
+    }
 
-        .site-header.scrolled {
-            padding: 12px 0;
-            backdrop-filter: blur(16px);
-            background: rgba(233, 238, 245, 0.58);
-            border-bottom: 1px solid rgba(15, 23, 42, 0.06);
-        }
+    .site-header {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        padding: 22px 0;
+        border-bottom: 1px solid transparent;
+        background: rgba(248, 246, 241, 0.72);
+        backdrop-filter: saturate(140%) blur(14px);
+        transition: padding 0.35s ease, border-color 0.35s ease, background 0.35s ease;
+    }
 
-        .nav-shell {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
+    .site-header.scrolled {
+        padding: 15px 0;
+        border-color: var(--line);
+        background: rgba(248, 246, 241, 0.84);
+    }
 
-        .brand {
-            font-size: 22px;
-            font-weight: 800;
-            letter-spacing: 0.5px;
-        }
+    .nav-shell {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+    }
 
-        .nav-links {
-            display: flex;
-            gap: 28px;
-            align-items: center;
-        }
+    .brand {
+        font-size: 22px;
+        font-weight: 800;
+        letter-spacing: 0.01em;
+        color: var(--accent);
+    }
 
-        .nav-links a {
-            position: relative;
-            font-size: 15px;
-            color: var(--text-soft);
-            transition: color 0.25s ease, transform 0.25s ease;
-        }
+    .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 30px;
+    }
 
-        .nav-links a::after {
-            content: "";
-            position: absolute;
-            left: 0;
-            bottom: -8px;
-            width: 0;
-            height: 2px;
-            border-radius: 999px;
-            background: var(--text);
-            transition: width 0.28s ease;
-        }
+    .nav-links a {
+        position: relative;
+        font-size: 15px;
+        color: var(--text-soft);
+        transition: color 0.25s ease, transform 0.25s ease;
+    }
 
-        .nav-links a:hover,
-        .nav-links a.active {
-            color: var(--text);
-            transform: translateY(-1px);
-        }
+    .nav-links a::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: -8px;
+        width: 0;
+        height: 1px;
+        background: var(--accent);
+        transition: width 0.28s ease;
+    }
 
-        .nav-links a:hover::after,
-        .nav-links a.active::after {
-            width: 100%;
-        }
+    .nav-links a:hover,
+    .nav-links a.active {
+        color: var(--accent);
+        transform: translateY(-1px);
+    }
 
-        .hero {
-            padding: 72px 0 34px;
-            text-align: center;
-            opacity: 0;
-            transform: translateY(28px);
-            animation: riseIn 0.95s cubic-bezier(.22,1,.36,1) forwards;
-        }
+    .nav-links a:hover::after,
+    .nav-links a.active::after {
+        width: 100%;
+    }
 
-        @keyframes riseIn {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+    .kicker {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        color: var(--text-faint);
+        font-size: 12px;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+    }
 
-        .eyebrow {
-            display: inline-block;
-            padding: 10px 14px;
-            border-radius: 999px;
-            background: rgba(255,255,255,0.64);
-            border: 1px solid rgba(255,255,255,0.56);
-            color: var(--text-soft);
-            font-size: 14px;
-            backdrop-filter: blur(10px);
-            margin-bottom: 18px;
-        }
+    .kicker::before {
+        content: "";
+        width: 48px;
+        height: 1px;
+        background: var(--line-strong);
+    }
 
-        .hero h1 {
-            font-size: clamp(56px, 7vw, 88px);
-            line-height: 1.04;
-            letter-spacing: -1.8px;
-            margin-bottom: 18px;
-        }
+    .home-hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1.12fr) minmax(280px, 0.88fr);
+        align-items: end;
+        gap: 64px;
+        min-height: calc(100vh - 92px);
+        padding: 80px 0 72px;
+    }
 
-        .hero p {
-            max-width: 860px;
-            margin: 0 auto;
-            font-size: 22px;
-            line-height: 1.85;
-            color: var(--text-soft);
-        }
+    .home-title {
+        font-family: var(--serif);
+        font-size: clamp(58px, 8vw, 104px);
+        line-height: 0.93;
+        letter-spacing: -0.05em;
+        max-width: 7.6ch;
+        margin: 18px 0 24px;
+        color: var(--accent);
+    }
 
-        .section {
-            padding: 38px 0 90px;
-        }
+    .home-lead {
+        max-width: 20em;
+        font-size: 21px;
+        line-height: 1.9;
+        color: var(--text-soft);
+        margin-bottom: 30px;
+    }
 
-        .grid-3 {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 22px;
-        }
+    .home-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+    }
 
-        .card {
-            position: relative;
-            background: linear-gradient(180deg, rgba(255,255,255,0.84) 0%, rgba(255,255,255,0.72) 100%);
-            border: 1px solid rgba(255,255,255,0.58);
-            backdrop-filter: blur(12px);
-            border-radius: var(--radius-lg);
-            padding: 28px 26px;
-            box-shadow: var(--shadow-md);
-            overflow: hidden;
-            transition: transform 0.32s ease, box-shadow 0.32s ease, border-color 0.32s ease;
-        }
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 54px;
+        padding: 0 22px;
+        border-radius: 999px;
+        font-size: 15px;
+        font-weight: 700;
+        border: 1px solid transparent;
+        transition: transform 0.28s ease, box-shadow 0.28s ease, background 0.28s ease, border-color 0.28s ease;
+    }
 
-        .card::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, rgba(255,255,255,0.28), transparent 44%);
-            opacity: 0;
-            transition: opacity 0.32s ease;
-            pointer-events: none;
-        }
+    .btn-dark {
+        background: var(--accent);
+        color: #fff;
+        box-shadow: 0 14px 32px rgba(15, 23, 42, 0.14);
+    }
 
-        .card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 22px 46px rgba(15, 23, 42, 0.08);
-        }
+    .btn-dark:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 18px 38px rgba(15, 23, 42, 0.18);
+    }
 
-        .card:hover::before {
-            opacity: 1;
-        }
+    .btn-light {
+        background: rgba(255, 255, 255, 0.7);
+        color: var(--accent);
+        border-color: var(--line);
+        backdrop-filter: blur(10px);
+    }
 
-        .card-tag {
-            display: inline-block;
-            padding: 7px 10px;
-            border-radius: 999px;
-            background: rgba(15, 23, 42, 0.05);
-            color: var(--text-faint);
-            font-size: 12px;
-            margin-bottom: 16px;
-        }
+    .btn-light:hover {
+        transform: translateY(-3px);
+        background: rgba(255, 255, 255, 0.92);
+        box-shadow: var(--shadow-soft);
+    }
 
-        .card h2 {
-            font-size: 30px;
-            margin-bottom: 14px;
-            letter-spacing: -0.5px;
-        }
+    .meta-stack {
+        border-top: 1px solid var(--line-strong);
+        align-self: center;
+    }
 
-        .card p {
-            color: var(--text-soft);
-            font-size: 18px;
-            line-height: 1.85;
-            margin-bottom: 18px;
-        }
+    .meta-item {
+        padding: 22px 0;
+        border-bottom: 1px solid var(--line);
+    }
 
-        .list {
-            padding-left: 20px;
-            color: var(--text-soft);
-            line-height: 2;
-            font-size: 17px;
-            margin-bottom: 24px;
-        }
+    .meta-label {
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        color: var(--text-faint);
+        margin-bottom: 10px;
+    }
 
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 46px;
-            padding: 0 18px;
-            border-radius: 14px;
-            background: linear-gradient(180deg, #111827 0%, #0f172a 100%);
-            color: #fff;
-            font-size: 15px;
-            font-weight: 700;
-            box-shadow: 0 12px 24px rgba(15, 23, 42, 0.14);
-            transition: transform 0.28s ease, box-shadow 0.28s ease;
-        }
+    .meta-value {
+        font-size: 22px;
+        line-height: 1.65;
+        color: var(--accent);
+        font-weight: 600;
+    }
 
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 18px 30px rgba(15, 23, 42, 0.18);
-        }
+    .home-section {
+        padding: 26px 0 96px;
+    }
 
-        .feature-panel {
-            margin-top: 26px;
-            background: linear-gradient(180deg, rgba(255,255,255,0.82) 0%, rgba(255,255,255,0.7) 100%);
-            border: 1px solid rgba(255,255,255,0.56);
-            backdrop-filter: blur(12px);
-            border-radius: var(--radius-xl);
-            padding: 30px 28px;
-            box-shadow: var(--shadow-md);
-        }
+    .section-intro {
+        margin-bottom: 30px;
+    }
 
-        .feature-panel h3 {
-            font-size: 32px;
-            margin-bottom: 14px;
-        }
+    .section-title {
+        font-family: var(--serif);
+        font-size: clamp(38px, 4.3vw, 62px);
+        line-height: 1.02;
+        letter-spacing: -0.035em;
+        margin: 14px 0 12px;
+        color: var(--accent);
+    }
 
-        .feature-panel p {
-            color: var(--text-soft);
-            font-size: 19px;
-            line-height: 1.9;
-        }
+    .section-text {
+        max-width: 42em;
+        font-size: 18px;
+        line-height: 1.9;
+        color: var(--text-soft);
+    }
 
-        .footer {
-            padding: 24px 0 56px;
-            text-align: center;
-            color: var(--text-faint);
-            font-size: 14px;
-        }
+    .entry-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1.14fr) minmax(280px, 0.86fr);
+        gap: 24px;
+    }
 
-        .reveal {
-            opacity: 0;
-            transform: translateY(28px);
-            transition: opacity 0.8s cubic-bezier(.22,1,.36,1), transform 0.8s cubic-bezier(.22,1,.36,1);
-        }
+    .stack {
+        display: grid;
+        gap: 24px;
+    }
 
-        .reveal.show {
+    .panel {
+        position: relative;
+        overflow: hidden;
+        border-radius: var(--radius-xl);
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.88) 0%, rgba(255, 255, 255, 0.74) 100%);
+        border: 1px solid var(--line);
+        box-shadow: var(--shadow-soft);
+        padding: 30px 28px;
+        transition: transform 0.35s cubic-bezier(.22, 1, .36, 1), box-shadow 0.35s ease, border-color 0.35s ease;
+    }
+
+    .panel::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.42), transparent 42%);
+        pointer-events: none;
+    }
+
+    .panel::after {
+        content: "";
+        position: absolute;
+        right: 26px;
+        bottom: 24px;
+        width: 84px;
+        height: 84px;
+        border-top: 1px solid rgba(15, 23, 42, 0.08);
+        border-right: 1px solid rgba(15, 23, 42, 0.08);
+        border-top-right-radius: 18px;
+        pointer-events: none;
+        opacity: 0.7;
+    }
+
+    .panel:hover {
+        transform: translateY(-6px);
+        border-color: var(--line-strong);
+        box-shadow: var(--shadow-lg);
+    }
+
+    .entry-feature {
+        min-height: 420px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .panel-tag {
+        display: inline-block;
+        color: var(--text-faint);
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        margin-bottom: 18px;
+    }
+
+    .panel h3 {
+        font-family: var(--serif);
+        font-size: clamp(32px, 3.4vw, 50px);
+        line-height: 1.03;
+        letter-spacing: -0.03em;
+        margin-bottom: 12px;
+        color: var(--accent);
+    }
+
+    .panel p {
+        font-size: 18px;
+        line-height: 1.9;
+        color: var(--text-soft);
+        max-width: 30em;
+    }
+
+    .panel-meta {
+        margin-top: 22px;
+        color: var(--text-faint);
+        font-size: 14px;
+        line-height: 1.9;
+    }
+
+    .panel-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 24px;
+        font-weight: 700;
+        font-size: 15px;
+        color: var(--accent);
+        transition: gap 0.28s ease, opacity 0.28s ease;
+    }
+
+    .panel-link:hover {
+        gap: 12px;
+        opacity: 0.78;
+    }
+
+    .principles {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 26px;
+        margin-top: 30px;
+    }
+
+    .principle {
+        padding-top: 22px;
+        border-top: 1px solid var(--line-strong);
+    }
+
+    .principle-number {
+        font-family: var(--serif);
+        font-size: 34px;
+        line-height: 1;
+        color: var(--accent);
+        margin-bottom: 12px;
+    }
+
+    .principle h4 {
+        font-size: 20px;
+        margin-bottom: 10px;
+        color: var(--accent);
+    }
+
+    .principle p {
+        font-size: 17px;
+        line-height: 1.9;
+        color: var(--text-soft);
+    }
+
+    .page-hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.9fr);
+        align-items: end;
+        gap: 60px;
+        padding: 72px 0 42px;
+    }
+
+    .page-title {
+        font-family: var(--serif);
+        font-size: clamp(56px, 7.2vw, 92px);
+        line-height: 0.95;
+        letter-spacing: -0.05em;
+        margin: 18px 0 18px;
+        color: var(--accent);
+    }
+
+    .page-lead {
+        max-width: 24em;
+        font-size: 20px;
+        line-height: 1.95;
+        color: var(--text-soft);
+    }
+
+    .page-note {
+        border-top: 1px solid var(--line-strong);
+    }
+
+    .note-row {
+        padding: 20px 0;
+        border-bottom: 1px solid var(--line);
+    }
+
+    .note-label {
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        color: var(--text-faint);
+        margin-bottom: 10px;
+    }
+
+    .note-value {
+        font-size: 18px;
+        line-height: 1.85;
+        color: var(--text-soft);
+    }
+
+    .page-shell {
+        display: grid;
+        grid-template-columns: 220px minmax(0, 1fr);
+        gap: 58px;
+        padding: 8px 0 96px;
+    }
+
+    .sidebar {
+        position: sticky;
+        top: 96px;
+        align-self: start;
+    }
+
+    .sidebar-block + .sidebar-block {
+        margin-top: 30px;
+    }
+
+    .sidebar-title {
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        color: var(--text-faint);
+        margin-bottom: 14px;
+    }
+
+    .sidebar-nav a {
+        display: block;
+        padding: 10px 0;
+        border-bottom: 1px solid var(--line);
+        color: var(--text-soft);
+        transition: color 0.25s ease, transform 0.25s ease;
+    }
+
+    .sidebar-nav a:hover {
+        color: var(--accent);
+        transform: translateX(4px);
+    }
+
+    .sidebar-note {
+        font-size: 15px;
+        line-height: 1.9;
+        color: var(--text-soft);
+    }
+
+    section[id] {
+        scroll-margin-top: 100px;
+    }
+
+    .content-section {
+        padding: 30px 0 34px;
+        border-top: 1px solid var(--line-strong);
+    }
+
+    .content-section:first-child {
+        padding-top: 0;
+        border-top: none;
+    }
+
+    .section-label {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        color: var(--text-faint);
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        margin-bottom: 16px;
+    }
+
+    .section-label::before {
+        content: "";
+        width: 44px;
+        height: 1px;
+        background: var(--line-strong);
+    }
+
+    .content-section h2 {
+        font-family: var(--serif);
+        font-size: clamp(36px, 4.2vw, 56px);
+        line-height: 1.03;
+        letter-spacing: -0.035em;
+        margin-bottom: 14px;
+        color: var(--accent);
+    }
+
+    .content-section .intro {
+        max-width: 40em;
+        font-size: 18px;
+        line-height: 1.95;
+        color: var(--text-soft);
+        margin-bottom: 24px;
+    }
+
+    .card-grid-3 {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+    }
+
+    .card-grid-2 {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+
+    .mini-card {
+        border-radius: var(--radius-lg);
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.86) 0%, rgba(255, 255, 255, 0.72) 100%);
+        border: 1px solid var(--line);
+        box-shadow: var(--shadow-soft);
+        padding: 24px 22px;
+        transition: transform 0.32s ease, box-shadow 0.32s ease, border-color 0.32s ease;
+    }
+
+    .mini-card:hover {
+        transform: translateY(-4px);
+        border-color: var(--line-strong);
+        box-shadow: 0 18px 42px rgba(15, 23, 42, 0.06);
+    }
+
+    .mini-card .card-small-kicker {
+        display: inline-block;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        color: var(--text-faint);
+        margin-bottom: 14px;
+    }
+
+    .mini-card h3 {
+        font-family: var(--serif);
+        font-size: 28px;
+        line-height: 1.08;
+        letter-spacing: -0.02em;
+        margin-bottom: 10px;
+        color: var(--accent);
+    }
+
+    .mini-card p {
+        font-size: 17px;
+        line-height: 1.88;
+        color: var(--text-soft);
+        margin-bottom: 14px;
+    }
+
+    .list {
+        padding-left: 18px;
+        color: var(--text-soft);
+        line-height: 1.95;
+        font-size: 16px;
+    }
+
+    .list li + li {
+        margin-top: 6px;
+    }
+
+    .statement {
+        border-radius: var(--radius-xl);
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.88) 0%, rgba(255, 255, 255, 0.76) 100%);
+        border: 1px solid var(--line-strong);
+        box-shadow: var(--shadow-soft);
+        padding: 28px 28px;
+        margin-top: 2px;
+    }
+
+    .statement p {
+        font-family: var(--serif);
+        font-size: clamp(28px, 3vw, 40px);
+        line-height: 1.38;
+        letter-spacing: -0.02em;
+        color: var(--accent);
+    }
+
+    .step-list {
+        display: grid;
+    }
+
+    .step {
+        display: grid;
+        grid-template-columns: 72px minmax(0, 1fr);
+        gap: 18px;
+        padding: 22px 0;
+        border-top: 1px solid var(--line);
+    }
+
+    .step:first-child {
+        border-top: none;
+    }
+
+    .step-num {
+        font-family: var(--serif);
+        font-size: 34px;
+        line-height: 1;
+        color: var(--accent);
+    }
+
+    .step h3 {
+        font-size: 22px;
+        line-height: 1.4;
+        margin-bottom: 8px;
+        color: var(--accent);
+    }
+
+    .step p {
+        font-size: 17px;
+        line-height: 1.9;
+        color: var(--text-soft);
+    }
+
+    .footer {
+        display: flex;
+        justify-content: space-between;
+        gap: 24px;
+        align-items: center;
+        padding: 28px 0 64px;
+        border-top: 1px solid var(--line);
+        color: var(--text-faint);
+        font-size: 14px;
+    }
+
+    .footer a {
+        color: var(--text-soft);
+        transition: opacity 0.25s ease;
+    }
+
+    .footer a:hover {
+        opacity: 0.72;
+    }
+
+    .reveal {
+        opacity: 0;
+        transform: translateY(26px);
+        transition: opacity 0.8s cubic-bezier(.22, 1, .36, 1), transform 0.8s cubic-bezier(.22, 1, .36, 1);
+    }
+
+    .reveal.show {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .hero-reveal {
+        opacity: 0;
+        transform: translateY(24px);
+        animation: heroIn 0.9s cubic-bezier(.22, 1, .36, 1) forwards;
+    }
+
+    .hero-reveal.delay-1 {
+        animation-delay: 0.08s;
+    }
+
+    @keyframes heroIn {
+        to {
             opacity: 1;
             transform: translateY(0);
         }
+    }
 
-        @media (max-width: 1080px) {
-            .grid-3 {
-                grid-template-columns: 1fr;
-            }
+    :focus-visible {
+        outline: 2px solid rgba(15, 23, 42, 0.55);
+        outline-offset: 4px;
+    }
+
+    @media (max-width: 1080px) {
+        .home-hero,
+        .page-hero,
+        .entry-grid,
+        .page-shell {
+            grid-template-columns: 1fr;
         }
 
-        @media (max-width: 760px) {
-            .site-header {
-                position: static;
-            }
-
-            .nav-links {
-                display: none;
-            }
-
-            .brand {
-                font-size: 20px;
-            }
-
-            .hero {
-                padding-top: 42px;
-            }
-
-            .hero h1 {
-                font-size: 46px;
-                letter-spacing: -1px;
-            }
-
-            .hero p,
-            .card p,
-            .feature-panel p {
-                font-size: 17px;
-            }
-
-            .card h2,
-            .feature-panel h3 {
-                font-size: 24px;
-            }
-
-            .list {
-                font-size: 16px;
-            }
+        .home-hero {
+            min-height: auto;
         }
-    </style>
+
+        .meta-stack,
+        .page-note {
+            max-width: 760px;
+        }
+
+        .sidebar {
+            position: static;
+            top: auto;
+        }
+
+        .card-grid-3,
+        .principles {
+            grid-template-columns: 1fr;
+        }
+
+        .card-grid-2 {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @media (max-width: 760px) {
+        body::before {
+            display: none;
+        }
+
+        .site-header {
+            position: static;
+            padding: 18px 0;
+        }
+
+        .nav-links {
+            display: none;
+        }
+
+        .brand {
+            font-size: 20px;
+        }
+
+        .home-hero {
+            padding: 54px 0 56px;
+            gap: 42px;
+        }
+
+        .page-hero {
+            padding: 52px 0 34px;
+            gap: 38px;
+        }
+
+        .home-title,
+        .page-title {
+            max-width: none;
+            font-size: 48px;
+            line-height: 0.98;
+            letter-spacing: -0.04em;
+        }
+
+        .home-lead,
+        .page-lead,
+        .section-text,
+        .content-section .intro,
+        .panel p,
+        .mini-card p,
+        .step p {
+            font-size: 17px;
+        }
+
+        .panel,
+        .mini-card,
+        .statement {
+            padding: 22px 20px;
+        }
+
+        .panel h3,
+        .mini-card h3 {
+            font-size: 26px;
+        }
+
+        .meta-value {
+            font-size: 20px;
+        }
+
+        .step {
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+
+        .footer {
+            flex-direction: column;
+            align-items: flex-start;
+            padding-bottom: 40px;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        html {
+            scroll-behavior: auto;
+        }
+
+        *, *::before, *::after {
+            animation: none !important;
+            transition: none !important;
+        }
+
+        .reveal,
+        .hero-reveal {
+            opacity: 1 !important;
+            transform: none !important;
+        }
+    }
+</style>
+
 </head>
 <body>
-    <div class="bg-orb orb-1"></div>
-    <div class="bg-orb orb-2"></div>
 
     <header class="site-header" id="siteHeader">
         <div class="container nav-shell">
-            <a href="index.html" class="brand">任世豪</a>
+            <a class="brand" href="index.html">任世豪</a>
             <nav class="nav-links">
-                <a href="notes.html">医学笔记</a>
+                <a href="notes.html" >医学笔记</a>
                 <a href="ai.html" class="active">AI学习</a>
-                <a href="paper.html">论文思考</a>
+                <a href="paper.html" >论文思考</a>
             </nav>
         </div>
     </header>
 
-    <main class="container">
-        <section class="hero">
-            <div class="eyebrow">AI Learning</div>
-            <h1>AI学习</h1>
-            <p>
-                这一页用来整理我对人工智能相关内容的学习过程，包括基础概念、应用场景，
-                以及我在学习中的理解、问题和阶段性记录。
+
+<main class="container">
+    <section class="page-hero">
+        <div class="hero-reveal">
+            <div class="kicker">AI Learning</div>
+            <h1 class="page-title">AI学习</h1>
+            <p class="page-lead">
+                这一页用来整理我对人工智能相关内容的理解，不只放概念，也放应用观察、
+                关键问题和自己的学习记录。
             </p>
-        </section>
+        </div>
 
-        <section class="section reveal">
-            <div class="grid-3">
-                <article class="card">
-                    <div class="card-tag">Concepts</div>
-                    <h2>基础概念</h2>
-                    <p>先把人工智能、大模型、语音技术、机器学习这些核心概念的基本框架搭起来。</p>
-                    <ul class="list">
-                        <li>大模型基本逻辑</li>
-                        <li>语音识别与合成</li>
-                        <li>机器学习入门</li>
-                    </ul>
-                    <a class="btn" href="#">后续补充</a>
-                </article>
+        <aside class="page-note hero-reveal delay-1">
+            <div class="note-row">
+                <div class="note-label">页面定位</div>
+                <div class="note-value">基础概念 / 应用观察 / 学习记录</div>
+            </div>
+            <div class="note-row">
+                <div class="note-label">当前重心</div>
+                <div class="note-value">语音技术、AI医学应用与规范问题</div>
+            </div>
+            <div class="note-row">
+                <div class="note-label">更新方式</div>
+                <div class="note-value">按主题推进，不追求一次写全</div>
+            </div>
+        </aside>
+    </section>
 
-                <article class="card">
-                    <div class="card-tag">Applications</div>
-                    <h2>应用场景</h2>
-                    <p>关注 AI 在现实中的落地，尤其是医学场景和语音相关技术的实际应用。</p>
-                    <ul class="list">
-                        <li>AI 辅助医疗</li>
-                        <li>语音克隆应用</li>
-                        <li>智能问答系统</li>
-                    </ul>
-                    <a class="btn" href="#">后续补充</a>
-                </article>
-
-                <article class="card">
-                    <div class="card-tag">Logs</div>
-                    <h2>学习记录</h2>
-                    <p>记录我在学习 AI 过程中的问题、理解和阶段性收获，形成可回看的轨迹。</p>
-                    <ul class="list">
-                        <li>阶段学习笔记</li>
-                        <li>重点问题整理</li>
-                        <li>术语理解记录</li>
-                    </ul>
-                    <a class="btn" href="#">后续补充</a>
-                </article>
+    <div class="page-shell">
+        <aside class="sidebar">
+            <div class="sidebar-block">
+                <div class="sidebar-title">页面导览</div>
+                <nav class="sidebar-nav">
+                    <a href="#framework">基础框架</a>
+                    <a href="#observe">应用观察</a>
+                    <a href="#log">学习记录</a>
+                </nav>
             </div>
 
-            <div class="feature-panel reveal" style="transition-delay: .08s;">
-                <h3>我的关注重点</h3>
-                <p>
-                    我更关心 AI 技术与现实问题之间的连接，尤其是语音克隆、声音利益保护、
-                    AI 在医学中的应用，以及这些技术引发的规范和法律问题。
+            <div class="sidebar-block">
+                <div class="sidebar-title">备注</div>
+                <p class="sidebar-note">
+                    我更关心技术如何进入现实场景，尤其是语音克隆、AI医疗与人格利益保护之间的连接。
                 </p>
             </div>
-        </section>
-    </main>
+        </aside>
 
-    <footer class="footer">
-        © 2026 任世豪 · AI Learning
+        <div>
+            <section class="content-section reveal" id="framework">
+                <div class="section-label">Framework</div>
+                <h2>基础框架</h2>
+                <p class="intro">
+                    先把核心概念的基础框架立住，再根据实际问题继续深挖。这样后面的应用观察才不会悬空。
+                </p>
+
+                <div class="card-grid-3">
+                    <article class="mini-card">
+                        <div class="card-small-kicker">Models</div>
+                        <h3>大模型逻辑</h3>
+                        <p>先理解大模型为什么能工作、能做什么、又为什么会在不同场景下暴露出局限。</p>
+                        <ul class="list">
+                            <li>预训练与对齐</li>
+                            <li>提示与输出特征</li>
+                            <li>能力边界</li>
+                        </ul>
+                    </article>
+
+                    <article class="mini-card">
+                        <div class="card-small-kicker">Voice</div>
+                        <h3>语音技术</h3>
+                        <p>把语音识别、语音合成和语音克隆放在一条技术链上看，而不是分开零散理解。</p>
+                        <ul class="list">
+                            <li>语音识别</li>
+                            <li>语音合成</li>
+                            <li>声音复制与风格迁移</li>
+                        </ul>
+                    </article>
+
+                    <article class="mini-card">
+                        <div class="card-small-kicker">Learning</div>
+                        <h3>机器学习基础</h3>
+                        <p>补齐最基础的学习逻辑，让后面看模型和应用时不会只停留在表面术语上。</p>
+                        <ul class="list">
+                            <li>数据与特征</li>
+                            <li>训练与泛化</li>
+                            <li>评估与误差</li>
+                        </ul>
+                    </article>
+                </div>
+            </section>
+
+            <section class="content-section reveal" id="observe">
+                <div class="section-label">Observation</div>
+                <h2>应用观察</h2>
+                <p class="intro">
+                    我更在意 AI 如何真正进入现实，而不只是“可以做什么”。技术一旦落地，就会带出新的实践问题。
+                </p>
+
+                <div class="card-grid-2">
+                    <article class="mini-card">
+                        <div class="card-small-kicker">Medicine</div>
+                        <h3>AI 与医学</h3>
+                        <p>重点观察 AI 在辅助诊断、信息整理和医学学习中的作用，以及它对专业判断边界的影响。</p>
+                        <ul class="list">
+                            <li>医学信息整合</li>
+                            <li>临床辅助判断</li>
+                            <li>学习效率提升</li>
+                        </ul>
+                    </article>
+
+                    <article class="mini-card">
+                        <div class="card-small-kicker">Voice Cloning</div>
+                        <h3>语音克隆</h3>
+                        <p>它既是技术问题，也是现实中的人格利益问题。越往后看，越不能只用“技术可行性”去理解。</p>
+                        <ul class="list">
+                            <li>身份可识别性</li>
+                            <li>滥用风险</li>
+                            <li>规范边界</li>
+                        </ul>
+                    </article>
+                </div>
+
+                <div class="statement" style="margin-top: 20px;">
+                    <p>我更想研究的不是“AI 很强”，而是当技术真正进入现实后，哪些问题会被重新定义。</p>
+                </div>
+            </section>
+
+            <section class="content-section reveal" id="log">
+                <div class="section-label">Learning Log</div>
+                <h2>学习记录</h2>
+                <p class="intro">
+                    这一部分以后会持续记录阶段性问题和收获，让页面不只是概念目录，而是看得到学习轨迹的地方。
+                </p>
+
+                <div class="step-list">
+                    <article class="step">
+                        <div class="step-num">01</div>
+                        <div>
+                            <h3>先搭问题清单</h3>
+                            <p>把自己目前不清楚的问题先列出来，比如大模型能力来源、语音克隆边界、AI 医疗应用的可信度问题。</p>
+                        </div>
+                    </article>
+
+                    <article class="step">
+                        <div class="step-num">02</div>
+                        <div>
+                            <h3>再补阅读记录</h3>
+                            <p>把文章、案例和讨论中真正触发思考的点补进来，而不是机械抄一遍定义。</p>
+                        </div>
+                    </article>
+
+                    <article class="step">
+                        <div class="step-num">03</div>
+                        <div>
+                            <h3>最后做阶段整理</h3>
+                            <p>每学完一段，再把概念、应用和问题意识重新串成一个结构，保证页面一直是活的。</p>
+                        </div>
+                    </article>
+                </div>
+            </section>
+        </div>
+    </div>
+</main>
+
+
+    <footer class="container footer">
+        <div>© 2026 任世豪 · Personal Website</div>
+        <div><a href="mailto:renshihao76@outlook.com">renshihao76@outlook.com</a></div>
     </footer>
 
-    <script>
-        const header = document.getElementById("siteHeader");
-        window.addEventListener("scroll", () => {
-            if (window.scrollY > 20) {
-                header.classList.add("scrolled");
-            } else {
-                header.classList.remove("scrolled");
-            }
-        });
 
+<script>
+    const header = document.getElementById("siteHeader");
+    const onScroll = () => {
+        if (window.scrollY > 12) {
+            header.classList.add("scrolled");
+        } else {
+            header.classList.remove("scrolled");
+        }
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll);
+
+    if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
         const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
+            entries.forEach((entry) => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add("show");
+                    observer.unobserve(entry.target);
                 }
             });
-        }, { threshold: 0.16 });
+        }, { threshold: 0.14 });
 
-        document.querySelectorAll(".reveal").forEach(el => observer.observe(el));
-    </script>
+        document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
+    } else {
+        document.querySelectorAll(".reveal").forEach((el) => el.classList.add("show"));
+    }
+</script>
+
 </body>
 </html>

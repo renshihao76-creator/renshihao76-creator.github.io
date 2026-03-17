@@ -5,617 +5,1032 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>任世豪 | 个人网站</title>
     <meta name="description" content="任世豪的个人网站，整理医学笔记、AI学习记录与论文思考。" />
-    <style>
-        :root {
-            --bg: #e9eef5;
-            --bg-deep: #dde6f0;
-            --surface: rgba(255, 255, 255, 0.72);
-            --surface-strong: rgba(255, 255, 255, 0.88);
-            --line: rgba(15, 23, 42, 0.08);
-            --text: #0f172a;
-            --text-soft: #475569;
-            --text-faint: #64748b;
-            --primary: #0f172a;
-            --primary-soft: #1e293b;
-            --shadow-lg: 0 20px 60px rgba(15, 23, 42, 0.08);
-            --shadow-md: 0 10px 30px rgba(15, 23, 42, 0.06);
-            --radius-xl: 28px;
-            --radius-lg: 22px;
-            --radius-md: 16px;
-            --container: 1180px;
-        }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<style>
+    :root {
+        --bg-1: #f8f6f1;
+        --bg-2: #eef1f5;
+        --surface: rgba(255, 255, 255, 0.78);
+        --surface-strong: rgba(255, 255, 255, 0.9);
+        --line: rgba(15, 23, 42, 0.10);
+        --line-strong: rgba(15, 23, 42, 0.18);
+        --text: #111827;
+        --text-soft: #475569;
+        --text-faint: #768396;
+        --accent: #0f172a;
+        --serif: "Iowan Old Style", "Palatino Linotype", "Times New Roman", "Songti SC", "STSong", serif;
+        --sans: "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+        --max-width: 1200px;
+        --radius-xl: 30px;
+        --radius-lg: 24px;
+        --radius-md: 16px;
+        --shadow-soft: 0 10px 24px rgba(15, 23, 42, 0.04);
+        --shadow-lg: 0 24px 64px rgba(15, 23, 42, 0.07);
+    }
 
-        html {
-            scroll-behavior: smooth;
-        }
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
 
-        body {
-            font-family: "Microsoft YaHei", "PingFang SC", "Helvetica Neue", Arial, sans-serif;
-            color: var(--text);
-            background:
-                radial-gradient(circle at 15% 20%, rgba(255,255,255,0.65), transparent 24%),
-                radial-gradient(circle at 85% 18%, rgba(255,255,255,0.45), transparent 22%),
-                linear-gradient(180deg, var(--bg) 0%, var(--bg-deep) 100%);
-            overflow-x: hidden;
-        }
+    html {
+        scroll-behavior: smooth;
+    }
 
-        a {
-            color: inherit;
-            text-decoration: none;
-        }
+    body {
+        min-height: 100vh;
+        color: var(--text);
+        font-family: var(--sans);
+        background:
+            radial-gradient(circle at 14% 10%, rgba(255, 255, 255, 0.96), transparent 28%),
+            radial-gradient(circle at 88% 14%, rgba(255, 255, 255, 0.6), transparent 22%),
+            linear-gradient(180deg, var(--bg-1) 0%, var(--bg-2) 100%);
+        overflow-x: hidden;
+    }
 
-        .container {
-            width: min(var(--container), 92%);
-            margin: 0 auto;
-        }
+    body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 50%;
+        width: 1px;
+        background: linear-gradient(180deg, transparent, rgba(15, 23, 42, 0.08), transparent);
+        transform: translateX(-50%);
+        pointer-events: none;
+        z-index: -2;
+        opacity: 0.7;
+    }
 
-        .bg-orb {
-            position: fixed;
-            inset: auto;
-            width: 520px;
-            height: 520px;
-            border-radius: 50%;
-            filter: blur(70px);
-            opacity: 0.26;
-            z-index: -1;
-            pointer-events: none;
-            animation: floatOrb 11s ease-in-out infinite;
-        }
+    body::after {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background:
+            radial-gradient(circle at 25% 30%, rgba(15, 23, 42, 0.02), transparent 30%),
+            radial-gradient(circle at 78% 72%, rgba(15, 23, 42, 0.028), transparent 28%);
+        pointer-events: none;
+        z-index: -3;
+    }
 
-        .orb-1 {
-            top: -140px;
-            right: -100px;
-            background: rgba(255,255,255,0.65);
-        }
+    ::selection {
+        background: rgba(15, 23, 42, 0.12);
+        color: var(--accent);
+    }
 
-        .orb-2 {
-            bottom: 6%;
-            left: -140px;
-            background: rgba(201, 213, 225, 0.55);
-            animation-delay: -4s;
-        }
+    a {
+        color: inherit;
+        text-decoration: none;
+    }
 
-        @keyframes floatOrb {
-            0%, 100% { transform: translateY(0px) translateX(0px); }
-            50% { transform: translateY(20px) translateX(10px); }
-        }
+    img {
+        max-width: 100%;
+        display: block;
+    }
 
-        .site-header {
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            padding: 18px 0;
-            transition: all 0.35s ease;
-        }
+    .container {
+        width: min(var(--max-width), 92%);
+        margin: 0 auto;
+    }
 
-        .site-header.scrolled {
-            padding: 12px 0;
-            backdrop-filter: blur(16px);
-            background: rgba(233, 238, 245, 0.58);
-            border-bottom: 1px solid rgba(15, 23, 42, 0.06);
-        }
+    .site-header {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        padding: 22px 0;
+        border-bottom: 1px solid transparent;
+        background: rgba(248, 246, 241, 0.72);
+        backdrop-filter: saturate(140%) blur(14px);
+        transition: padding 0.35s ease, border-color 0.35s ease, background 0.35s ease;
+    }
 
-        .nav-shell {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
+    .site-header.scrolled {
+        padding: 15px 0;
+        border-color: var(--line);
+        background: rgba(248, 246, 241, 0.84);
+    }
 
-        .brand {
-            font-size: 22px;
-            font-weight: 800;
-            letter-spacing: 0.5px;
-        }
+    .nav-shell {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+    }
 
-        .nav-links {
-            display: flex;
-            gap: 28px;
-            align-items: center;
-        }
+    .brand {
+        font-size: 22px;
+        font-weight: 800;
+        letter-spacing: 0.01em;
+        color: var(--accent);
+    }
 
-        .nav-links a {
-            position: relative;
-            font-size: 15px;
-            color: var(--text-soft);
-            transition: color 0.25s ease, transform 0.25s ease;
-        }
+    .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 30px;
+    }
 
-        .nav-links a::after {
-            content: "";
-            position: absolute;
-            left: 0;
-            bottom: -8px;
-            width: 0;
-            height: 2px;
-            background: var(--text);
-            border-radius: 999px;
-            transition: width 0.28s ease;
-        }
+    .nav-links a {
+        position: relative;
+        font-size: 15px;
+        color: var(--text-soft);
+        transition: color 0.25s ease, transform 0.25s ease;
+    }
 
-        .nav-links a:hover,
-        .nav-links a.active {
-            color: var(--text);
-            transform: translateY(-1px);
-        }
+    .nav-links a::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: -8px;
+        width: 0;
+        height: 1px;
+        background: var(--accent);
+        transition: width 0.28s ease;
+    }
 
-        .nav-links a:hover::after,
-        .nav-links a.active::after {
-            width: 100%;
-        }
+    .nav-links a:hover,
+    .nav-links a.active {
+        color: var(--accent);
+        transform: translateY(-1px);
+    }
 
-        .hero {
-            min-height: calc(100vh - 90px);
-            display: grid;
-            grid-template-columns: 1.08fr 0.92fr;
-            gap: 34px;
-            align-items: center;
-            padding: 48px 0 68px;
-        }
+    .nav-links a:hover::after,
+    .nav-links a.active::after {
+        width: 100%;
+    }
 
-        .hero-copy,
-        .hero-panel {
-            opacity: 0;
-            transform: translateY(30px);
-            animation: riseIn 0.95s cubic-bezier(.22,1,.36,1) forwards;
-        }
+    .kicker {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        color: var(--text-faint);
+        font-size: 12px;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+    }
 
-        .hero-panel {
-            animation-delay: 0.12s;
-        }
+    .kicker::before {
+        content: "";
+        width: 48px;
+        height: 1px;
+        background: var(--line-strong);
+    }
 
-        @keyframes riseIn {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+    .home-hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1.12fr) minmax(280px, 0.88fr);
+        align-items: end;
+        gap: 64px;
+        min-height: calc(100vh - 92px);
+        padding: 80px 0 72px;
+    }
 
-        .eyebrow {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px 14px;
-            border: 1px solid rgba(255,255,255,0.55);
-            background: rgba(255,255,255,0.56);
-            border-radius: 999px;
-            color: var(--text-soft);
-            font-size: 14px;
-            box-shadow: 0 8px 24px rgba(255,255,255,0.28);
-            margin-bottom: 18px;
-            backdrop-filter: blur(10px);
-        }
+    .home-title {
+        font-family: var(--serif);
+        font-size: clamp(58px, 8vw, 104px);
+        line-height: 0.93;
+        letter-spacing: -0.05em;
+        max-width: 7.6ch;
+        margin: 18px 0 24px;
+        color: var(--accent);
+    }
 
-        .hero h1 {
-            font-size: clamp(52px, 6.4vw, 92px);
-            line-height: 1.04;
-            letter-spacing: -2px;
-            font-weight: 800;
-            max-width: 680px;
-            margin-bottom: 22px;
-        }
+    .home-lead {
+        max-width: 20em;
+        font-size: 21px;
+        line-height: 1.9;
+        color: var(--text-soft);
+        margin-bottom: 30px;
+    }
 
-        .hero p {
-            max-width: 700px;
-            font-size: 23px;
-            line-height: 1.78;
-            color: var(--text-soft);
-            margin-bottom: 30px;
-        }
+    .home-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+    }
 
-        .hero-actions {
-            display: flex;
-            gap: 14px;
-            flex-wrap: wrap;
-        }
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 54px;
+        padding: 0 22px;
+        border-radius: 999px;
+        font-size: 15px;
+        font-weight: 700;
+        border: 1px solid transparent;
+        transition: transform 0.28s ease, box-shadow 0.28s ease, background 0.28s ease, border-color 0.28s ease;
+    }
 
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 54px;
-            padding: 0 22px;
-            border-radius: 16px;
-            font-size: 16px;
-            font-weight: 700;
-            transition: transform 0.28s ease, box-shadow 0.28s ease, background 0.28s ease, border-color 0.28s ease;
-        }
+    .btn-dark {
+        background: var(--accent);
+        color: #fff;
+        box-shadow: 0 14px 32px rgba(15, 23, 42, 0.14);
+    }
 
-        .btn-primary {
-            background: linear-gradient(180deg, #111827 0%, #0f172a 100%);
-            color: #fff;
-            box-shadow: 0 14px 32px rgba(15, 23, 42, 0.16);
-        }
+    .btn-dark:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 18px 38px rgba(15, 23, 42, 0.18);
+    }
 
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 20px 40px rgba(15, 23, 42, 0.20);
-        }
+    .btn-light {
+        background: rgba(255, 255, 255, 0.7);
+        color: var(--accent);
+        border-color: var(--line);
+        backdrop-filter: blur(10px);
+    }
 
-        .btn-secondary {
-            background: rgba(255,255,255,0.72);
-            color: var(--text);
-            border: 1px solid rgba(15, 23, 42, 0.08);
-            backdrop-filter: blur(10px);
-        }
+    .btn-light:hover {
+        transform: translateY(-3px);
+        background: rgba(255, 255, 255, 0.92);
+        box-shadow: var(--shadow-soft);
+    }
 
-        .btn-secondary:hover {
-            transform: translateY(-3px);
-            background: rgba(255,255,255,0.9);
-            box-shadow: 0 14px 26px rgba(15, 23, 42, 0.08);
-        }
+    .meta-stack {
+        border-top: 1px solid var(--line-strong);
+        align-self: center;
+    }
 
-        .hero-panel {
-            position: relative;
-        }
+    .meta-item {
+        padding: 22px 0;
+        border-bottom: 1px solid var(--line);
+    }
 
-        .panel-card {
-            position: relative;
-            border-radius: var(--radius-xl);
-            background: linear-gradient(180deg, rgba(255,255,255,0.82) 0%, rgba(255,255,255,0.66) 100%);
-            border: 1px solid rgba(255,255,255,0.58);
-            backdrop-filter: blur(18px);
-            padding: 28px;
-            box-shadow: var(--shadow-lg);
-            overflow: hidden;
-            transition: transform 0.35s ease, box-shadow 0.35s ease;
-        }
+    .meta-label {
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        color: var(--text-faint);
+        margin-bottom: 10px;
+    }
 
-        .panel-card::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, rgba(255,255,255,0.28), transparent 42%);
-            pointer-events: none;
-        }
+    .meta-value {
+        font-size: 22px;
+        line-height: 1.65;
+        color: var(--accent);
+        font-weight: 600;
+    }
 
-        .panel-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 28px 70px rgba(15, 23, 42, 0.1);
-        }
+    .home-section {
+        padding: 26px 0 96px;
+    }
 
-        .panel-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 18px;
-        }
+    .section-intro {
+        margin-bottom: 30px;
+    }
 
-        .panel-top h2 {
-            font-size: 28px;
-            font-weight: 800;
-        }
+    .section-title {
+        font-family: var(--serif);
+        font-size: clamp(38px, 4.3vw, 62px);
+        line-height: 1.02;
+        letter-spacing: -0.035em;
+        margin: 14px 0 12px;
+        color: var(--accent);
+    }
 
-        .panel-pill {
-            padding: 8px 12px;
-            border-radius: 999px;
-            background: rgba(15, 23, 42, 0.05);
-            color: var(--text-faint);
-            font-size: 13px;
-        }
+    .section-text {
+        max-width: 42em;
+        font-size: 18px;
+        line-height: 1.9;
+        color: var(--text-soft);
+    }
 
-        .info-item {
-            padding: 20px 0;
-            border-bottom: 1px solid var(--line);
-        }
+    .entry-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1.14fr) minmax(280px, 0.86fr);
+        gap: 24px;
+    }
 
-        .info-item:last-child {
-            border-bottom: none;
-            padding-bottom: 4px;
-        }
+    .stack {
+        display: grid;
+        gap: 24px;
+    }
 
-        .info-label {
-            font-size: 14px;
-            color: var(--text-faint);
-            margin-bottom: 8px;
-        }
+    .panel {
+        position: relative;
+        overflow: hidden;
+        border-radius: var(--radius-xl);
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.88) 0%, rgba(255, 255, 255, 0.74) 100%);
+        border: 1px solid var(--line);
+        box-shadow: var(--shadow-soft);
+        padding: 30px 28px;
+        transition: transform 0.35s cubic-bezier(.22, 1, .36, 1), box-shadow 0.35s ease, border-color 0.35s ease;
+    }
 
-        .info-value {
-            font-size: 28px;
-            line-height: 1.45;
-            font-weight: 700;
-        }
+    .panel::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.42), transparent 42%);
+        pointer-events: none;
+    }
 
-        .info-value.small {
-            font-size: 22px;
-            font-weight: 600;
-        }
+    .panel::after {
+        content: "";
+        position: absolute;
+        right: 26px;
+        bottom: 24px;
+        width: 84px;
+        height: 84px;
+        border-top: 1px solid rgba(15, 23, 42, 0.08);
+        border-right: 1px solid rgba(15, 23, 42, 0.08);
+        border-top-right-radius: 18px;
+        pointer-events: none;
+        opacity: 0.7;
+    }
 
-        .section {
-            padding: 22px 0 90px;
-        }
+    .panel:hover {
+        transform: translateY(-6px);
+        border-color: var(--line-strong);
+        box-shadow: var(--shadow-lg);
+    }
 
-        .section-head {
-            text-align: center;
-            margin-bottom: 34px;
-        }
+    .entry-feature {
+        min-height: 420px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
 
-        .section-head h2 {
-            font-size: clamp(34px, 4vw, 48px);
-            margin-bottom: 12px;
-            letter-spacing: -1px;
-        }
+    .panel-tag {
+        display: inline-block;
+        color: var(--text-faint);
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        margin-bottom: 18px;
+    }
 
-        .section-head p {
-            color: var(--text-faint);
-            font-size: 19px;
-        }
+    .panel h3 {
+        font-family: var(--serif);
+        font-size: clamp(32px, 3.4vw, 50px);
+        line-height: 1.03;
+        letter-spacing: -0.03em;
+        margin-bottom: 12px;
+        color: var(--accent);
+    }
 
-        .grid-3 {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 22px;
-        }
+    .panel p {
+        font-size: 18px;
+        line-height: 1.9;
+        color: var(--text-soft);
+        max-width: 30em;
+    }
 
-        .card {
-            position: relative;
-            background: linear-gradient(180deg, rgba(255,255,255,0.84) 0%, rgba(255,255,255,0.72) 100%);
-            border: 1px solid rgba(255,255,255,0.58);
-            backdrop-filter: blur(12px);
-            border-radius: var(--radius-lg);
-            padding: 28px 26px;
-            box-shadow: var(--shadow-md);
-            overflow: hidden;
-            transition: transform 0.32s ease, box-shadow 0.32s ease, border-color 0.32s ease;
-        }
+    .panel-meta {
+        margin-top: 22px;
+        color: var(--text-faint);
+        font-size: 14px;
+        line-height: 1.9;
+    }
 
-        .card::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, rgba(255,255,255,0.26), transparent 46%);
-            opacity: 0;
-            transition: opacity 0.32s ease;
-            pointer-events: none;
-        }
+    .panel-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 24px;
+        font-weight: 700;
+        font-size: 15px;
+        color: var(--accent);
+        transition: gap 0.28s ease, opacity 0.28s ease;
+    }
 
-        .card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 22px 46px rgba(15, 23, 42, 0.08);
-            border-color: rgba(255,255,255,0.72);
-        }
+    .panel-link:hover {
+        gap: 12px;
+        opacity: 0.78;
+    }
 
-        .card:hover::before {
-            opacity: 1;
-        }
+    .principles {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 26px;
+        margin-top: 30px;
+    }
 
-        .card-tag {
-            display: inline-block;
-            padding: 7px 10px;
-            border-radius: 999px;
-            background: rgba(15, 23, 42, 0.05);
-            color: var(--text-faint);
-            font-size: 12px;
-            margin-bottom: 16px;
-        }
+    .principle {
+        padding-top: 22px;
+        border-top: 1px solid var(--line-strong);
+    }
 
-        .card h3 {
-            font-size: 30px;
-            margin-bottom: 14px;
-            letter-spacing: -0.5px;
-        }
+    .principle-number {
+        font-family: var(--serif);
+        font-size: 34px;
+        line-height: 1;
+        color: var(--accent);
+        margin-bottom: 12px;
+    }
 
-        .card p {
-            color: var(--text-soft);
-            font-size: 18px;
-            line-height: 1.85;
-            margin-bottom: 22px;
-        }
+    .principle h4 {
+        font-size: 20px;
+        margin-bottom: 10px;
+        color: var(--accent);
+    }
 
-        .card-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            font-weight: 700;
-            font-size: 15px;
-            color: var(--text);
-            transition: gap 0.25s ease, opacity 0.25s ease;
-        }
+    .principle p {
+        font-size: 17px;
+        line-height: 1.9;
+        color: var(--text-soft);
+    }
 
-        .card-link:hover {
-            gap: 12px;
-            opacity: 0.78;
-        }
+    .page-hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.9fr);
+        align-items: end;
+        gap: 60px;
+        padding: 72px 0 42px;
+    }
 
-        .footer {
-            padding: 24px 0 56px;
-            text-align: center;
-            color: var(--text-faint);
-            font-size: 14px;
-        }
+    .page-title {
+        font-family: var(--serif);
+        font-size: clamp(56px, 7.2vw, 92px);
+        line-height: 0.95;
+        letter-spacing: -0.05em;
+        margin: 18px 0 18px;
+        color: var(--accent);
+    }
 
-        .reveal {
-            opacity: 0;
-            transform: translateY(28px);
-            transition: opacity 0.8s cubic-bezier(.22,1,.36,1), transform 0.8s cubic-bezier(.22,1,.36,1);
-        }
+    .page-lead {
+        max-width: 24em;
+        font-size: 20px;
+        line-height: 1.95;
+        color: var(--text-soft);
+    }
 
-        .reveal.show {
+    .page-note {
+        border-top: 1px solid var(--line-strong);
+    }
+
+    .note-row {
+        padding: 20px 0;
+        border-bottom: 1px solid var(--line);
+    }
+
+    .note-label {
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        color: var(--text-faint);
+        margin-bottom: 10px;
+    }
+
+    .note-value {
+        font-size: 18px;
+        line-height: 1.85;
+        color: var(--text-soft);
+    }
+
+    .page-shell {
+        display: grid;
+        grid-template-columns: 220px minmax(0, 1fr);
+        gap: 58px;
+        padding: 8px 0 96px;
+    }
+
+    .sidebar {
+        position: sticky;
+        top: 96px;
+        align-self: start;
+    }
+
+    .sidebar-block + .sidebar-block {
+        margin-top: 30px;
+    }
+
+    .sidebar-title {
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        color: var(--text-faint);
+        margin-bottom: 14px;
+    }
+
+    .sidebar-nav a {
+        display: block;
+        padding: 10px 0;
+        border-bottom: 1px solid var(--line);
+        color: var(--text-soft);
+        transition: color 0.25s ease, transform 0.25s ease;
+    }
+
+    .sidebar-nav a:hover {
+        color: var(--accent);
+        transform: translateX(4px);
+    }
+
+    .sidebar-note {
+        font-size: 15px;
+        line-height: 1.9;
+        color: var(--text-soft);
+    }
+
+    section[id] {
+        scroll-margin-top: 100px;
+    }
+
+    .content-section {
+        padding: 30px 0 34px;
+        border-top: 1px solid var(--line-strong);
+    }
+
+    .content-section:first-child {
+        padding-top: 0;
+        border-top: none;
+    }
+
+    .section-label {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        color: var(--text-faint);
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        margin-bottom: 16px;
+    }
+
+    .section-label::before {
+        content: "";
+        width: 44px;
+        height: 1px;
+        background: var(--line-strong);
+    }
+
+    .content-section h2 {
+        font-family: var(--serif);
+        font-size: clamp(36px, 4.2vw, 56px);
+        line-height: 1.03;
+        letter-spacing: -0.035em;
+        margin-bottom: 14px;
+        color: var(--accent);
+    }
+
+    .content-section .intro {
+        max-width: 40em;
+        font-size: 18px;
+        line-height: 1.95;
+        color: var(--text-soft);
+        margin-bottom: 24px;
+    }
+
+    .card-grid-3 {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+    }
+
+    .card-grid-2 {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+
+    .mini-card {
+        border-radius: var(--radius-lg);
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.86) 0%, rgba(255, 255, 255, 0.72) 100%);
+        border: 1px solid var(--line);
+        box-shadow: var(--shadow-soft);
+        padding: 24px 22px;
+        transition: transform 0.32s ease, box-shadow 0.32s ease, border-color 0.32s ease;
+    }
+
+    .mini-card:hover {
+        transform: translateY(-4px);
+        border-color: var(--line-strong);
+        box-shadow: 0 18px 42px rgba(15, 23, 42, 0.06);
+    }
+
+    .mini-card .card-small-kicker {
+        display: inline-block;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        color: var(--text-faint);
+        margin-bottom: 14px;
+    }
+
+    .mini-card h3 {
+        font-family: var(--serif);
+        font-size: 28px;
+        line-height: 1.08;
+        letter-spacing: -0.02em;
+        margin-bottom: 10px;
+        color: var(--accent);
+    }
+
+    .mini-card p {
+        font-size: 17px;
+        line-height: 1.88;
+        color: var(--text-soft);
+        margin-bottom: 14px;
+    }
+
+    .list {
+        padding-left: 18px;
+        color: var(--text-soft);
+        line-height: 1.95;
+        font-size: 16px;
+    }
+
+    .list li + li {
+        margin-top: 6px;
+    }
+
+    .statement {
+        border-radius: var(--radius-xl);
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.88) 0%, rgba(255, 255, 255, 0.76) 100%);
+        border: 1px solid var(--line-strong);
+        box-shadow: var(--shadow-soft);
+        padding: 28px 28px;
+        margin-top: 2px;
+    }
+
+    .statement p {
+        font-family: var(--serif);
+        font-size: clamp(28px, 3vw, 40px);
+        line-height: 1.38;
+        letter-spacing: -0.02em;
+        color: var(--accent);
+    }
+
+    .step-list {
+        display: grid;
+    }
+
+    .step {
+        display: grid;
+        grid-template-columns: 72px minmax(0, 1fr);
+        gap: 18px;
+        padding: 22px 0;
+        border-top: 1px solid var(--line);
+    }
+
+    .step:first-child {
+        border-top: none;
+    }
+
+    .step-num {
+        font-family: var(--serif);
+        font-size: 34px;
+        line-height: 1;
+        color: var(--accent);
+    }
+
+    .step h3 {
+        font-size: 22px;
+        line-height: 1.4;
+        margin-bottom: 8px;
+        color: var(--accent);
+    }
+
+    .step p {
+        font-size: 17px;
+        line-height: 1.9;
+        color: var(--text-soft);
+    }
+
+    .footer {
+        display: flex;
+        justify-content: space-between;
+        gap: 24px;
+        align-items: center;
+        padding: 28px 0 64px;
+        border-top: 1px solid var(--line);
+        color: var(--text-faint);
+        font-size: 14px;
+    }
+
+    .footer a {
+        color: var(--text-soft);
+        transition: opacity 0.25s ease;
+    }
+
+    .footer a:hover {
+        opacity: 0.72;
+    }
+
+    .reveal {
+        opacity: 0;
+        transform: translateY(26px);
+        transition: opacity 0.8s cubic-bezier(.22, 1, .36, 1), transform 0.8s cubic-bezier(.22, 1, .36, 1);
+    }
+
+    .reveal.show {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .hero-reveal {
+        opacity: 0;
+        transform: translateY(24px);
+        animation: heroIn 0.9s cubic-bezier(.22, 1, .36, 1) forwards;
+    }
+
+    .hero-reveal.delay-1 {
+        animation-delay: 0.08s;
+    }
+
+    @keyframes heroIn {
+        to {
             opacity: 1;
             transform: translateY(0);
         }
+    }
 
-        @media (max-width: 1080px) {
-            .hero {
-                grid-template-columns: 1fr;
-                min-height: auto;
-                padding-top: 26px;
-            }
+    :focus-visible {
+        outline: 2px solid rgba(15, 23, 42, 0.55);
+        outline-offset: 4px;
+    }
 
-            .hero h1 {
-                max-width: none;
-            }
-
-            .hero p {
-                max-width: none;
-            }
-
-            .grid-3 {
-                grid-template-columns: 1fr;
-            }
+    @media (max-width: 1080px) {
+        .home-hero,
+        .page-hero,
+        .entry-grid,
+        .page-shell {
+            grid-template-columns: 1fr;
         }
 
-        @media (max-width: 760px) {
-            .site-header {
-                position: static;
-            }
-
-            .nav-links {
-                display: none;
-            }
-
-            .brand {
-                font-size: 20px;
-            }
-
-            .hero h1 {
-                font-size: 44px;
-                letter-spacing: -1px;
-            }
-
-            .hero p,
-            .card p,
-            .section-head p {
-                font-size: 17px;
-            }
-
-            .panel-top h2 {
-                font-size: 24px;
-            }
-
-            .info-value {
-                font-size: 22px;
-            }
-
-            .info-value.small {
-                font-size: 18px;
-            }
-
-            .card h3 {
-                font-size: 24px;
-            }
+        .home-hero {
+            min-height: auto;
         }
-    </style>
+
+        .meta-stack,
+        .page-note {
+            max-width: 760px;
+        }
+
+        .sidebar {
+            position: static;
+            top: auto;
+        }
+
+        .card-grid-3,
+        .principles {
+            grid-template-columns: 1fr;
+        }
+
+        .card-grid-2 {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @media (max-width: 760px) {
+        body::before {
+            display: none;
+        }
+
+        .site-header {
+            position: static;
+            padding: 18px 0;
+        }
+
+        .nav-links {
+            display: none;
+        }
+
+        .brand {
+            font-size: 20px;
+        }
+
+        .home-hero {
+            padding: 54px 0 56px;
+            gap: 42px;
+        }
+
+        .page-hero {
+            padding: 52px 0 34px;
+            gap: 38px;
+        }
+
+        .home-title,
+        .page-title {
+            max-width: none;
+            font-size: 48px;
+            line-height: 0.98;
+            letter-spacing: -0.04em;
+        }
+
+        .home-lead,
+        .page-lead,
+        .section-text,
+        .content-section .intro,
+        .panel p,
+        .mini-card p,
+        .step p {
+            font-size: 17px;
+        }
+
+        .panel,
+        .mini-card,
+        .statement {
+            padding: 22px 20px;
+        }
+
+        .panel h3,
+        .mini-card h3 {
+            font-size: 26px;
+        }
+
+        .meta-value {
+            font-size: 20px;
+        }
+
+        .step {
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+
+        .footer {
+            flex-direction: column;
+            align-items: flex-start;
+            padding-bottom: 40px;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        html {
+            scroll-behavior: auto;
+        }
+
+        *, *::before, *::after {
+            animation: none !important;
+            transition: none !important;
+        }
+
+        .reveal,
+        .hero-reveal {
+            opacity: 1 !important;
+            transform: none !important;
+        }
+    }
+</style>
+
 </head>
 <body>
-    <div class="bg-orb orb-1"></div>
-    <div class="bg-orb orb-2"></div>
 
     <header class="site-header" id="siteHeader">
         <div class="container nav-shell">
-            <a href="index.html" class="brand">任世豪</a>
+            <a class="brand" href="index.html">任世豪</a>
             <nav class="nav-links">
-                <a href="notes.html">医学笔记</a>
-                <a href="ai.html">AI学习</a>
-                <a href="paper.html">论文思考</a>
+                <a href="notes.html" >医学笔记</a>
+                <a href="ai.html" >AI学习</a>
+                <a href="paper.html" >论文思考</a>
             </nav>
         </div>
     </header>
 
-    <main class="container">
-        <section class="hero">
-            <div class="hero-copy">
-                <div class="eyebrow">医学生 · AI研究 · 个人网站</div>
-                <h1>把学习、研究和思考，整理成可见的积累</h1>
-                <p>
-                    你好，我是任世豪。目前是一名医学生。这个网站用来整理我的医学笔记、
-                    AI学习记录以及论文研究思考，让零散内容慢慢沉淀成系统框架。
-                </p>
-                <div class="hero-actions">
-                    <a class="btn btn-primary" href="notes.html">进入医学笔记</a>
-                    <a class="btn btn-secondary" href="paper.html">查看论文思考</a>
-                </div>
+
+<main class="container">
+    <section class="home-hero">
+        <div class="hero-reveal">
+            <div class="kicker">Medicine · AI · Writing</div>
+            <h1 class="home-title">把学习、研究和写作整理成长期积累</h1>
+            <p class="home-lead">
+                你好，我是任世豪。这个网站不是为了把自己“展示得很满”，而是作为一个长期工作台，
+                把医学学习、AI观察与论文思考慢慢沉淀成真正有用的东西。
+            </p>
+            <div class="home-actions">
+                <a class="btn btn-dark" href="notes.html">进入医学笔记</a>
+                <a class="btn btn-light" href="paper.html">查看论文思考</a>
             </div>
+        </div>
 
-            <div class="hero-panel">
-                <div class="panel-card">
-                    <div class="panel-top">
-                        <h2>个人信息</h2>
-                        <div class="panel-pill">Profile</div>
-                    </div>
-
-                    <div class="info-item">
-                        <div class="info-label">身份</div>
-                        <div class="info-value">大二医学生</div>
-                    </div>
-
-                    <div class="info-item">
-                        <div class="info-label">关注方向</div>
-                        <div class="info-value small">医学学习 / AI研究 / 学术写作</div>
-                    </div>
-
-                    <div class="info-item">
-                        <div class="info-label">研究兴趣</div>
-                        <div class="info-value small">声音权、语音克隆、人格权益保护</div>
-                    </div>
-
-                    <div class="info-item">
-                        <div class="info-label">联系邮箱</div>
-                        <div class="info-value small">renshihao76@outlook.com</div>
-                    </div>
-                </div>
+        <aside class="meta-stack hero-reveal delay-1">
+            <div class="meta-item">
+                <div class="meta-label">身份</div>
+                <div class="meta-value">大二医学生</div>
             </div>
-        </section>
-
-        <section class="section reveal">
-            <div class="section-head">
-                <h2>网站内容</h2>
-                <p>先把外壳做稳，再把真正的内容一点点往里填。</p>
+            <div class="meta-item">
+                <div class="meta-label">关注方向</div>
+                <div class="meta-value">医学学习 / AI研究 / 学术写作</div>
             </div>
+            <div class="meta-item">
+                <div class="meta-label">研究兴趣</div>
+                <div class="meta-value">声音权、语音克隆、人格权益保护</div>
+            </div>
+            <div class="meta-item">
+                <div class="meta-label">联系邮箱</div>
+                <div class="meta-value">renshihao76@outlook.com</div>
+            </div>
+        </aside>
+    </section>
 
-            <div class="grid-3">
-                <article class="card">
-                    <div class="card-tag">Medical Notes</div>
+    <section class="home-section reveal" id="areas">
+        <div class="section-intro">
+            <div class="kicker">Core Areas</div>
+            <h2 class="section-title">三个长期板块</h2>
+            <p class="section-text">
+                这里不会被做成花哨的“展示墙”。我更想让它像一个有秩序的书桌：
+                先把骨架搭稳，再把真正值得留下来的内容持续塞进去。
+            </p>
+        </div>
+
+        <div class="entry-grid">
+            <article class="panel entry-feature">
+                <div>
+                    <div class="panel-tag">01 / Medical Notes</div>
                     <h3>医学笔记</h3>
-                    <p>整理课程笔记、重点知识和复习内容，让学习材料更系统，也更方便回看。</p>
-                    <a class="card-link" href="notes.html">进入页面 <span>→</span></a>
-                </article>
+                    <p>
+                        按学科、章节和复习阶段重建自己的知识结构，而不是把资料随手堆在一起。
+                        这部分以后会承接系统解剖、生理、病理以及更后面的临床内容。
+                    </p>
+                </div>
+                <div>
+                    <div class="panel-meta">系统解剖学 / 生理学 / 病理学 / 后续临床课程</div>
+                    <a class="panel-link" href="notes.html">打开这一部分 <span>→</span></a>
+                </div>
+            </article>
 
-                <article class="card">
-                    <div class="card-tag">AI Learning</div>
+            <div class="stack">
+                <article class="panel">
+                    <div class="panel-tag">02 / AI Learning</div>
                     <h3>AI学习</h3>
-                    <p>记录我对人工智能、语音技术和AI应用场景的理解，慢慢建立自己的知识框架。</p>
-                    <a class="card-link" href="ai.html">进入页面 <span>→</span></a>
+                    <p>
+                        把大模型、语音技术、AI应用与问题意识放到同一条学习线上，
+                        让技术理解不只停留在概念层面。
+                    </p>
+                    <a class="panel-link" href="ai.html">进入 AI 页面 <span>→</span></a>
                 </article>
 
-                <article class="card">
-                    <div class="card-tag">Paper Thinking</div>
+                <article class="panel">
+                    <div class="panel-tag">03 / Paper Thinking</div>
                     <h3>论文思考</h3>
-                    <p>集中放论文选题、问题意识、参考资料和阶段性思考，形成长期可积累的研究轨迹。</p>
-                    <a class="card-link" href="paper.html">进入页面 <span>→</span></a>
+                    <p>
+                        把选题、问题、文献和提纲放在同一处持续推进，
+                        让研究过程本身也能被记录和打磨。
+                    </p>
+                    <a class="panel-link" href="paper.html">进入论文页面 <span>→</span></a>
                 </article>
             </div>
-        </section>
-    </main>
+        </div>
+    </section>
 
-    <footer class="footer">
-        © 2026 任世豪 · Personal Website
+    <section class="home-section reveal" id="method">
+        <div class="section-intro">
+            <div class="kicker">Working Method</div>
+            <h2 class="section-title">我的工作方式</h2>
+            <p class="section-text">
+                这个网站会一直保持克制：先结构化，再补细节；先问题意识，再堆材料。
+                壳子只是为了让内容有位置，真正的价值以后会长在里面。
+            </p>
+        </div>
+
+        <div class="principles">
+            <article class="principle">
+                <div class="principle-number">01</div>
+                <h4>按系统整理</h4>
+                <p>不把学习内容做成零散摘抄，而是先搭出学科地图，再逐步填充每一层细节。</p>
+            </article>
+
+            <article class="principle">
+                <div class="principle-number">02</div>
+                <h4>跨学科连接</h4>
+                <p>把医学、AI与论文写作放在同一张桌面上，去观察它们真正发生联系的地方。</p>
+            </article>
+
+            <article class="principle">
+                <div class="principle-number">03</div>
+                <h4>慢速更新</h4>
+                <p>不追求一次写满，而是让每次补充都能留下结构痕迹，方便后来回看和继续推进。</p>
+            </article>
+        </div>
+    </section>
+</main>
+
+
+    <footer class="container footer">
+        <div>© 2026 任世豪 · Personal Website</div>
+        <div><a href="mailto:renshihao76@outlook.com">renshihao76@outlook.com</a></div>
     </footer>
 
-    <script>
-        const header = document.getElementById("siteHeader");
-        window.addEventListener("scroll", () => {
-            if (window.scrollY > 20) {
-                header.classList.add("scrolled");
-            } else {
-                header.classList.remove("scrolled");
-            }
-        });
 
+<script>
+    const header = document.getElementById("siteHeader");
+    const onScroll = () => {
+        if (window.scrollY > 12) {
+            header.classList.add("scrolled");
+        } else {
+            header.classList.remove("scrolled");
+        }
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll);
+
+    if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
         const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
+            entries.forEach((entry) => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add("show");
+                    observer.unobserve(entry.target);
                 }
             });
-        }, { threshold: 0.16 });
+        }, { threshold: 0.14 });
 
-        document.querySelectorAll(".reveal").forEach(el => observer.observe(el));
-    </script>
+        document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
+    } else {
+        document.querySelectorAll(".reveal").forEach((el) => el.classList.add("show"));
+    }
+</script>
+
 </body>
 </html>

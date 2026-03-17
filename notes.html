@@ -1,271 +1,1077 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>医学笔记 | 任世豪</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+    <meta name="description" content="任世豪的医学笔记页面，用于整理学科地图、复习逻辑与待补充清单。" />
+
+<style>
+    :root {
+        --bg-1: #f8f6f1;
+        --bg-2: #eef1f5;
+        --surface: rgba(255, 255, 255, 0.78);
+        --surface-strong: rgba(255, 255, 255, 0.9);
+        --line: rgba(15, 23, 42, 0.10);
+        --line-strong: rgba(15, 23, 42, 0.18);
+        --text: #111827;
+        --text-soft: #475569;
+        --text-faint: #768396;
+        --accent: #0f172a;
+        --serif: "Iowan Old Style", "Palatino Linotype", "Times New Roman", "Songti SC", "STSong", serif;
+        --sans: "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+        --max-width: 1200px;
+        --radius-xl: 30px;
+        --radius-lg: 24px;
+        --radius-md: 16px;
+        --shadow-soft: 0 10px 24px rgba(15, 23, 42, 0.04);
+        --shadow-lg: 0 24px 64px rgba(15, 23, 42, 0.07);
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        min-height: 100vh;
+        color: var(--text);
+        font-family: var(--sans);
+        background:
+            radial-gradient(circle at 14% 10%, rgba(255, 255, 255, 0.96), transparent 28%),
+            radial-gradient(circle at 88% 14%, rgba(255, 255, 255, 0.6), transparent 22%),
+            linear-gradient(180deg, var(--bg-1) 0%, var(--bg-2) 100%);
+        overflow-x: hidden;
+    }
+
+    body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 50%;
+        width: 1px;
+        background: linear-gradient(180deg, transparent, rgba(15, 23, 42, 0.08), transparent);
+        transform: translateX(-50%);
+        pointer-events: none;
+        z-index: -2;
+        opacity: 0.7;
+    }
+
+    body::after {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background:
+            radial-gradient(circle at 25% 30%, rgba(15, 23, 42, 0.02), transparent 30%),
+            radial-gradient(circle at 78% 72%, rgba(15, 23, 42, 0.028), transparent 28%);
+        pointer-events: none;
+        z-index: -3;
+    }
+
+    ::selection {
+        background: rgba(15, 23, 42, 0.12);
+        color: var(--accent);
+    }
+
+    a {
+        color: inherit;
+        text-decoration: none;
+    }
+
+    img {
+        max-width: 100%;
+        display: block;
+    }
+
+    .container {
+        width: min(var(--max-width), 92%);
+        margin: 0 auto;
+    }
+
+    .site-header {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        padding: 22px 0;
+        border-bottom: 1px solid transparent;
+        background: rgba(248, 246, 241, 0.72);
+        backdrop-filter: saturate(140%) blur(14px);
+        transition: padding 0.35s ease, border-color 0.35s ease, background 0.35s ease;
+    }
+
+    .site-header.scrolled {
+        padding: 15px 0;
+        border-color: var(--line);
+        background: rgba(248, 246, 241, 0.84);
+    }
+
+    .nav-shell {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+    }
+
+    .brand {
+        font-size: 22px;
+        font-weight: 800;
+        letter-spacing: 0.01em;
+        color: var(--accent);
+    }
+
+    .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 30px;
+    }
+
+    .nav-links a {
+        position: relative;
+        font-size: 15px;
+        color: var(--text-soft);
+        transition: color 0.25s ease, transform 0.25s ease;
+    }
+
+    .nav-links a::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: -8px;
+        width: 0;
+        height: 1px;
+        background: var(--accent);
+        transition: width 0.28s ease;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+        color: var(--accent);
+        transform: translateY(-1px);
+    }
+
+    .nav-links a:hover::after,
+    .nav-links a.active::after {
+        width: 100%;
+    }
+
+    .kicker {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        color: var(--text-faint);
+        font-size: 12px;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+    }
+
+    .kicker::before {
+        content: "";
+        width: 48px;
+        height: 1px;
+        background: var(--line-strong);
+    }
+
+    .home-hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1.12fr) minmax(280px, 0.88fr);
+        align-items: end;
+        gap: 64px;
+        min-height: calc(100vh - 92px);
+        padding: 80px 0 72px;
+    }
+
+    .home-title {
+        font-family: var(--serif);
+        font-size: clamp(58px, 8vw, 104px);
+        line-height: 0.93;
+        letter-spacing: -0.05em;
+        max-width: 7.6ch;
+        margin: 18px 0 24px;
+        color: var(--accent);
+    }
+
+    .home-lead {
+        max-width: 20em;
+        font-size: 21px;
+        line-height: 1.9;
+        color: var(--text-soft);
+        margin-bottom: 30px;
+    }
+
+    .home-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+    }
+
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 54px;
+        padding: 0 22px;
+        border-radius: 999px;
+        font-size: 15px;
+        font-weight: 700;
+        border: 1px solid transparent;
+        transition: transform 0.28s ease, box-shadow 0.28s ease, background 0.28s ease, border-color 0.28s ease;
+    }
+
+    .btn-dark {
+        background: var(--accent);
+        color: #fff;
+        box-shadow: 0 14px 32px rgba(15, 23, 42, 0.14);
+    }
+
+    .btn-dark:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 18px 38px rgba(15, 23, 42, 0.18);
+    }
+
+    .btn-light {
+        background: rgba(255, 255, 255, 0.7);
+        color: var(--accent);
+        border-color: var(--line);
+        backdrop-filter: blur(10px);
+    }
+
+    .btn-light:hover {
+        transform: translateY(-3px);
+        background: rgba(255, 255, 255, 0.92);
+        box-shadow: var(--shadow-soft);
+    }
+
+    .meta-stack {
+        border-top: 1px solid var(--line-strong);
+        align-self: center;
+    }
+
+    .meta-item {
+        padding: 22px 0;
+        border-bottom: 1px solid var(--line);
+    }
+
+    .meta-label {
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        color: var(--text-faint);
+        margin-bottom: 10px;
+    }
+
+    .meta-value {
+        font-size: 22px;
+        line-height: 1.65;
+        color: var(--accent);
+        font-weight: 600;
+    }
+
+    .home-section {
+        padding: 26px 0 96px;
+    }
+
+    .section-intro {
+        margin-bottom: 30px;
+    }
+
+    .section-title {
+        font-family: var(--serif);
+        font-size: clamp(38px, 4.3vw, 62px);
+        line-height: 1.02;
+        letter-spacing: -0.035em;
+        margin: 14px 0 12px;
+        color: var(--accent);
+    }
+
+    .section-text {
+        max-width: 42em;
+        font-size: 18px;
+        line-height: 1.9;
+        color: var(--text-soft);
+    }
+
+    .entry-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1.14fr) minmax(280px, 0.86fr);
+        gap: 24px;
+    }
+
+    .stack {
+        display: grid;
+        gap: 24px;
+    }
+
+    .panel {
+        position: relative;
+        overflow: hidden;
+        border-radius: var(--radius-xl);
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.88) 0%, rgba(255, 255, 255, 0.74) 100%);
+        border: 1px solid var(--line);
+        box-shadow: var(--shadow-soft);
+        padding: 30px 28px;
+        transition: transform 0.35s cubic-bezier(.22, 1, .36, 1), box-shadow 0.35s ease, border-color 0.35s ease;
+    }
+
+    .panel::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.42), transparent 42%);
+        pointer-events: none;
+    }
+
+    .panel::after {
+        content: "";
+        position: absolute;
+        right: 26px;
+        bottom: 24px;
+        width: 84px;
+        height: 84px;
+        border-top: 1px solid rgba(15, 23, 42, 0.08);
+        border-right: 1px solid rgba(15, 23, 42, 0.08);
+        border-top-right-radius: 18px;
+        pointer-events: none;
+        opacity: 0.7;
+    }
+
+    .panel:hover {
+        transform: translateY(-6px);
+        border-color: var(--line-strong);
+        box-shadow: var(--shadow-lg);
+    }
+
+    .entry-feature {
+        min-height: 420px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .panel-tag {
+        display: inline-block;
+        color: var(--text-faint);
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        margin-bottom: 18px;
+    }
+
+    .panel h3 {
+        font-family: var(--serif);
+        font-size: clamp(32px, 3.4vw, 50px);
+        line-height: 1.03;
+        letter-spacing: -0.03em;
+        margin-bottom: 12px;
+        color: var(--accent);
+    }
+
+    .panel p {
+        font-size: 18px;
+        line-height: 1.9;
+        color: var(--text-soft);
+        max-width: 30em;
+    }
+
+    .panel-meta {
+        margin-top: 22px;
+        color: var(--text-faint);
+        font-size: 14px;
+        line-height: 1.9;
+    }
+
+    .panel-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 24px;
+        font-weight: 700;
+        font-size: 15px;
+        color: var(--accent);
+        transition: gap 0.28s ease, opacity 0.28s ease;
+    }
+
+    .panel-link:hover {
+        gap: 12px;
+        opacity: 0.78;
+    }
+
+    .principles {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 26px;
+        margin-top: 30px;
+    }
+
+    .principle {
+        padding-top: 22px;
+        border-top: 1px solid var(--line-strong);
+    }
+
+    .principle-number {
+        font-family: var(--serif);
+        font-size: 34px;
+        line-height: 1;
+        color: var(--accent);
+        margin-bottom: 12px;
+    }
+
+    .principle h4 {
+        font-size: 20px;
+        margin-bottom: 10px;
+        color: var(--accent);
+    }
+
+    .principle p {
+        font-size: 17px;
+        line-height: 1.9;
+        color: var(--text-soft);
+    }
+
+    .page-hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.9fr);
+        align-items: end;
+        gap: 60px;
+        padding: 72px 0 42px;
+    }
+
+    .page-title {
+        font-family: var(--serif);
+        font-size: clamp(56px, 7.2vw, 92px);
+        line-height: 0.95;
+        letter-spacing: -0.05em;
+        margin: 18px 0 18px;
+        color: var(--accent);
+    }
+
+    .page-lead {
+        max-width: 24em;
+        font-size: 20px;
+        line-height: 1.95;
+        color: var(--text-soft);
+    }
+
+    .page-note {
+        border-top: 1px solid var(--line-strong);
+    }
+
+    .note-row {
+        padding: 20px 0;
+        border-bottom: 1px solid var(--line);
+    }
+
+    .note-label {
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        color: var(--text-faint);
+        margin-bottom: 10px;
+    }
+
+    .note-value {
+        font-size: 18px;
+        line-height: 1.85;
+        color: var(--text-soft);
+    }
+
+    .page-shell {
+        display: grid;
+        grid-template-columns: 220px minmax(0, 1fr);
+        gap: 58px;
+        padding: 8px 0 96px;
+    }
+
+    .sidebar {
+        position: sticky;
+        top: 96px;
+        align-self: start;
+    }
+
+    .sidebar-block + .sidebar-block {
+        margin-top: 30px;
+    }
+
+    .sidebar-title {
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        color: var(--text-faint);
+        margin-bottom: 14px;
+    }
+
+    .sidebar-nav a {
+        display: block;
+        padding: 10px 0;
+        border-bottom: 1px solid var(--line);
+        color: var(--text-soft);
+        transition: color 0.25s ease, transform 0.25s ease;
+    }
+
+    .sidebar-nav a:hover {
+        color: var(--accent);
+        transform: translateX(4px);
+    }
+
+    .sidebar-note {
+        font-size: 15px;
+        line-height: 1.9;
+        color: var(--text-soft);
+    }
+
+    section[id] {
+        scroll-margin-top: 100px;
+    }
+
+    .content-section {
+        padding: 30px 0 34px;
+        border-top: 1px solid var(--line-strong);
+    }
+
+    .content-section:first-child {
+        padding-top: 0;
+        border-top: none;
+    }
+
+    .section-label {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        color: var(--text-faint);
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        margin-bottom: 16px;
+    }
+
+    .section-label::before {
+        content: "";
+        width: 44px;
+        height: 1px;
+        background: var(--line-strong);
+    }
+
+    .content-section h2 {
+        font-family: var(--serif);
+        font-size: clamp(36px, 4.2vw, 56px);
+        line-height: 1.03;
+        letter-spacing: -0.035em;
+        margin-bottom: 14px;
+        color: var(--accent);
+    }
+
+    .content-section .intro {
+        max-width: 40em;
+        font-size: 18px;
+        line-height: 1.95;
+        color: var(--text-soft);
+        margin-bottom: 24px;
+    }
+
+    .card-grid-3 {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+    }
+
+    .card-grid-2 {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+
+    .mini-card {
+        border-radius: var(--radius-lg);
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.86) 0%, rgba(255, 255, 255, 0.72) 100%);
+        border: 1px solid var(--line);
+        box-shadow: var(--shadow-soft);
+        padding: 24px 22px;
+        transition: transform 0.32s ease, box-shadow 0.32s ease, border-color 0.32s ease;
+    }
+
+    .mini-card:hover {
+        transform: translateY(-4px);
+        border-color: var(--line-strong);
+        box-shadow: 0 18px 42px rgba(15, 23, 42, 0.06);
+    }
+
+    .mini-card .card-small-kicker {
+        display: inline-block;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        color: var(--text-faint);
+        margin-bottom: 14px;
+    }
+
+    .mini-card h3 {
+        font-family: var(--serif);
+        font-size: 28px;
+        line-height: 1.08;
+        letter-spacing: -0.02em;
+        margin-bottom: 10px;
+        color: var(--accent);
+    }
+
+    .mini-card p {
+        font-size: 17px;
+        line-height: 1.88;
+        color: var(--text-soft);
+        margin-bottom: 14px;
+    }
+
+    .list {
+        padding-left: 18px;
+        color: var(--text-soft);
+        line-height: 1.95;
+        font-size: 16px;
+    }
+
+    .list li + li {
+        margin-top: 6px;
+    }
+
+    .statement {
+        border-radius: var(--radius-xl);
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.88) 0%, rgba(255, 255, 255, 0.76) 100%);
+        border: 1px solid var(--line-strong);
+        box-shadow: var(--shadow-soft);
+        padding: 28px 28px;
+        margin-top: 2px;
+    }
+
+    .statement p {
+        font-family: var(--serif);
+        font-size: clamp(28px, 3vw, 40px);
+        line-height: 1.38;
+        letter-spacing: -0.02em;
+        color: var(--accent);
+    }
+
+    .step-list {
+        display: grid;
+    }
+
+    .step {
+        display: grid;
+        grid-template-columns: 72px minmax(0, 1fr);
+        gap: 18px;
+        padding: 22px 0;
+        border-top: 1px solid var(--line);
+    }
+
+    .step:first-child {
+        border-top: none;
+    }
+
+    .step-num {
+        font-family: var(--serif);
+        font-size: 34px;
+        line-height: 1;
+        color: var(--accent);
+    }
+
+    .step h3 {
+        font-size: 22px;
+        line-height: 1.4;
+        margin-bottom: 8px;
+        color: var(--accent);
+    }
+
+    .step p {
+        font-size: 17px;
+        line-height: 1.9;
+        color: var(--text-soft);
+    }
+
+    .footer {
+        display: flex;
+        justify-content: space-between;
+        gap: 24px;
+        align-items: center;
+        padding: 28px 0 64px;
+        border-top: 1px solid var(--line);
+        color: var(--text-faint);
+        font-size: 14px;
+    }
+
+    .footer a {
+        color: var(--text-soft);
+        transition: opacity 0.25s ease;
+    }
+
+    .footer a:hover {
+        opacity: 0.72;
+    }
+
+    .reveal {
+        opacity: 0;
+        transform: translateY(26px);
+        transition: opacity 0.8s cubic-bezier(.22, 1, .36, 1), transform 0.8s cubic-bezier(.22, 1, .36, 1);
+    }
+
+    .reveal.show {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .hero-reveal {
+        opacity: 0;
+        transform: translateY(24px);
+        animation: heroIn 0.9s cubic-bezier(.22, 1, .36, 1) forwards;
+    }
+
+    .hero-reveal.delay-1 {
+        animation-delay: 0.08s;
+    }
+
+    @keyframes heroIn {
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    :focus-visible {
+        outline: 2px solid rgba(15, 23, 42, 0.55);
+        outline-offset: 4px;
+    }
+
+    @media (max-width: 1080px) {
+        .home-hero,
+        .page-hero,
+        .entry-grid,
+        .page-shell {
+            grid-template-columns: 1fr;
         }
 
-        html {
-            scroll-behavior: smooth;
+        .home-hero {
+            min-height: auto;
         }
 
-        body {
-            font-family: "Microsoft YaHei", Arial, sans-serif;
-            background: linear-gradient(135deg, #eef2f7, #dfe7f1);
-            color: #1f2937;
-            animation: fadePage 0.8s ease;
-        }
-
-        @keyframes fadePage {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .container {
-            width: 90%;
-            max-width: 1100px;
-            margin: 0 auto;
-        }
-
-        header {
-            padding: 28px 0;
-        }
-
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo a {
-            text-decoration: none;
-            font-size: 28px;
-            font-weight: bold;
-            color: #111827;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: #374151;
-            margin-left: 24px;
-            font-size: 16px;
-            transition: 0.25s ease;
-        }
-
-        .nav-links a:hover,
-        .nav-links a.active {
-            color: #111827;
-            font-weight: bold;
-        }
-
-        .hero {
-            padding: 40px 0 30px;
-            text-align: center;
-        }
-
-        .tag {
-            display: inline-block;
-            padding: 8px 14px;
-            background: rgba(255,255,255,0.78);
-            border-radius: 999px;
-            font-size: 14px;
-            color: #4b5563;
-            margin-bottom: 16px;
-        }
-
-        .hero h1 {
-            font-size: 48px;
-            color: #111827;
-            margin-bottom: 16px;
-        }
-
-        .hero p {
+        .meta-stack,
+        .page-note {
             max-width: 760px;
-            margin: 0 auto;
-            font-size: 19px;
-            line-height: 1.8;
-            color: #6b7280;
         }
 
-        .section {
-            padding: 40px 0 70px;
+        .sidebar {
+            position: static;
+            top: auto;
         }
 
-        .cards {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
+        .card-grid-3,
+        .principles {
+            grid-template-columns: 1fr;
         }
 
-        .card {
-            background: rgba(255,255,255,0.92);
-            border-radius: 22px;
-            padding: 28px;
-            box-shadow: 0 12px 30px rgba(0,0,0,0.06);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        .card-grid-2 {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @media (max-width: 760px) {
+        body::before {
+            display: none;
         }
 
-        .card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 36px rgba(0,0,0,0.08);
+        .site-header {
+            position: static;
+            padding: 18px 0;
         }
 
-        .card h2 {
-            font-size: 24px;
-            margin-bottom: 16px;
-            color: #111827;
+        .nav-links {
+            display: none;
         }
 
-        .card p {
-            color: #6b7280;
-            line-height: 1.9;
-            margin-bottom: 20px;
+        .brand {
+            font-size: 20px;
         }
 
-        .list {
-            color: #4b5563;
-            line-height: 2;
-            padding-left: 18px;
-            margin-bottom: 24px;
+        .home-hero {
+            padding: 54px 0 56px;
+            gap: 42px;
         }
 
-        .btn {
-            display: inline-block;
-            text-decoration: none;
-            padding: 12px 20px;
-            border-radius: 12px;
-            background: #111827;
-            color: white;
-            transition: 0.25s ease;
+        .page-hero {
+            padding: 52px 0 34px;
+            gap: 38px;
         }
 
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 18px rgba(17,24,39,0.16);
+        .home-title,
+        .page-title {
+            max-width: none;
+            font-size: 48px;
+            line-height: 0.98;
+            letter-spacing: -0.04em;
         }
 
-        .bottom-box {
-            margin-top: 36px;
-            background: rgba(255,255,255,0.86);
-            border-radius: 20px;
-            padding: 28px;
-            box-shadow: 0 10px 26px rgba(0,0,0,0.05);
+        .home-lead,
+        .page-lead,
+        .section-text,
+        .content-section .intro,
+        .panel p,
+        .mini-card p,
+        .step p {
+            font-size: 17px;
         }
 
-        .bottom-box h3 {
-            font-size: 24px;
-            margin-bottom: 14px;
+        .panel,
+        .mini-card,
+        .statement {
+            padding: 22px 20px;
         }
 
-        .bottom-box p {
-            color: #6b7280;
-            line-height: 1.9;
+        .panel h3,
+        .mini-card h3 {
+            font-size: 26px;
         }
 
-        footer {
-            text-align: center;
-            padding: 20px 0 50px;
-            color: #6b7280;
-            font-size: 15px;
+        .meta-value {
+            font-size: 20px;
         }
 
-        @media (max-width: 900px) {
-            .cards {
-                grid-template-columns: 1fr;
-            }
-
-            .hero h1 {
-                font-size: 38px;
-            }
-
-            .nav-links {
-                display: none;
-            }
+        .step {
+            grid-template-columns: 1fr;
+            gap: 10px;
         }
-    </style>
+
+        .footer {
+            flex-direction: column;
+            align-items: flex-start;
+            padding-bottom: 40px;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        html {
+            scroll-behavior: auto;
+        }
+
+        *, *::before, *::after {
+            animation: none !important;
+            transition: none !important;
+        }
+
+        .reveal,
+        .hero-reveal {
+            opacity: 1 !important;
+            transform: none !important;
+        }
+    }
+</style>
+
 </head>
 <body>
-    <header>
-        <div class="container navbar">
-            <div class="logo"><a href="index.html">任世豪</a></div>
-            <div class="nav-links">
+
+    <header class="site-header" id="siteHeader">
+        <div class="container nav-shell">
+            <a class="brand" href="index.html">任世豪</a>
+            <nav class="nav-links">
                 <a href="notes.html" class="active">医学笔记</a>
-                <a href="ai.html">AI学习</a>
-                <a href="paper.html">论文思考</a>
-            </div>
+                <a href="ai.html" >AI学习</a>
+                <a href="paper.html" >论文思考</a>
+            </nav>
         </div>
     </header>
 
-    <main class="container">
-        <section class="hero">
-            <div class="tag">Medical Notes</div>
-            <h1>医学笔记</h1>
-            <p>
-                这一页用于整理我的医学学习内容。先把主要学科板块搭起来，
-                后面再逐步往每个模块里补充具体笔记和复习材料。
+
+<main class="container">
+    <section class="page-hero">
+        <div class="hero-reveal">
+            <div class="kicker">Medical Notes</div>
+            <h1 class="page-title">医学笔记</h1>
+            <p class="page-lead">
+                这一页不是杂乱摘抄区，而是一个长期复习工作台。
+                它会按学科地图、整理逻辑和待补充清单三层推进，方便以后持续回看。
             </p>
-        </section>
+        </div>
 
-        <section class="section">
-            <div class="cards">
-                <div class="card">
-                    <h2>系统解剖学</h2>
-                    <p>整理人体结构、器官位置与系统之间的关系，建立清晰的空间和结构框架。</p>
-                    <ul class="list">
-                        <li>骨骼与肌肉</li>
-                        <li>心血管系统</li>
-                        <li>神经系统</li>
-                    </ul>
-                    <a href="#" class="btn">后续补充</a>
-                </div>
+        <aside class="page-note hero-reveal delay-1">
+            <div class="note-row">
+                <div class="note-label">页面定位</div>
+                <div class="note-value">课程学习 / 复习整理 / 长期回看</div>
+            </div>
+            <div class="note-row">
+                <div class="note-label">当前阶段</div>
+                <div class="note-value">先搭学科框架，再逐步补具体笔记</div>
+            </div>
+            <div class="note-row">
+                <div class="note-label">更新方式</div>
+                <div class="note-value">按章节补充，不一次性堆满</div>
+            </div>
+        </aside>
+    </section>
 
-                <div class="card">
-                    <h2>生理学</h2>
-                    <p>重点记录各系统正常功能的机制和逻辑，形成“结构—功能—调节”的理解链条。</p>
-                    <ul class="list">
-                        <li>血液循环调节</li>
-                        <li>呼吸与气体交换</li>
-                        <li>内分泌调节</li>
-                    </ul>
-                    <a href="#" class="btn">后续补充</a>
-                </div>
-
-                <div class="card">
-                    <h2>病理学</h2>
-                    <p>把疾病发生发展的规律、基本病理变化与临床联系慢慢整合起来。</p>
-                    <ul class="list">
-                        <li>炎症与修复</li>
-                        <li>细胞损伤</li>
-                        <li>肿瘤基础</li>
-                    </ul>
-                    <a href="#" class="btn">后续补充</a>
-                </div>
+    <div class="page-shell">
+        <aside class="sidebar">
+            <div class="sidebar-block">
+                <div class="sidebar-title">页面导览</div>
+                <nav class="sidebar-nav">
+                    <a href="#map">学科地图</a>
+                    <a href="#method">整理逻辑</a>
+                    <a href="#queue">待补充清单</a>
+                </nav>
             </div>
 
-            <div class="bottom-box">
-                <h3>我的整理思路</h3>
-                <p>
-                    我希望这个页面不是简单堆材料，而是把课程内容按模块拆开，形成后续复习时能快速回看的结构。
-                    后面我会继续加入每门课的重点、易错点和阶段复习记录。
+            <div class="sidebar-block">
+                <div class="sidebar-title">备注</div>
+                <p class="sidebar-note">
+                    这页后续最重要的不是继续美化，而是把真正能帮助复习的内容按同一套结构慢慢填进去。
                 </p>
             </div>
-        </section>
-    </main>
+        </aside>
 
-    <footer>
-        © 2026 任世豪 · Medical Notes
+        <div>
+            <section class="content-section reveal" id="map">
+                <div class="section-label">Subject Map</div>
+                <h2>学科地图</h2>
+                <p class="intro">
+                    我会先把核心课程的主框架放好，后面再往每个模块里补重点、
+                    易错点、理解路径和阶段复习笔记。
+                </p>
+
+                <div class="card-grid-3">
+                    <article class="mini-card">
+                        <div class="card-small-kicker">Anatomy</div>
+                        <h3>系统解剖学</h3>
+                        <p>先把结构、位置和系统之间的空间关系理清楚，后面复习才不会碎。</p>
+                        <ul class="list">
+                            <li>骨骼与肌群</li>
+                            <li>心血管系统</li>
+                            <li>神经系统</li>
+                        </ul>
+                    </article>
+
+                    <article class="mini-card">
+                        <div class="card-small-kicker">Physiology</div>
+                        <h3>生理学</h3>
+                        <p>把“结构—功能—调节”串起来，建立各系统正常运作的完整逻辑。</p>
+                        <ul class="list">
+                            <li>循环调节</li>
+                            <li>呼吸与交换</li>
+                            <li>内分泌与稳态</li>
+                        </ul>
+                    </article>
+
+                    <article class="mini-card">
+                        <div class="card-small-kicker">Pathology</div>
+                        <h3>病理学</h3>
+                        <p>把疾病发生发展的普遍规律先抓稳，再把典型变化和临床联系接上去。</p>
+                        <ul class="list">
+                            <li>细胞与组织损伤</li>
+                            <li>炎症与修复</li>
+                            <li>肿瘤基础</li>
+                        </ul>
+                    </article>
+                </div>
+            </section>
+
+            <section class="content-section reveal" id="method">
+                <div class="section-label">Study Logic</div>
+                <h2>整理逻辑</h2>
+                <p class="intro">
+                    每门课都会按同一套工作流推进，这样页面以后越长，结构反而会越稳定，不会越写越乱。
+                </p>
+
+                <div class="step-list">
+                    <article class="step">
+                        <div class="step-num">01</div>
+                        <div>
+                            <h3>先搭地图</h3>
+                            <p>先按系统、章节和重点搭出骨架，不急着在第一轮把所有细节一次性写满。</p>
+                        </div>
+                    </article>
+
+                    <article class="step">
+                        <div class="step-num">02</div>
+                        <div>
+                            <h3>再补理解</h3>
+                            <p>把自己真正卡住的概念、容易混淆的点和高频考点补在对应位置，而不是另开一堆零散文档。</p>
+                        </div>
+                    </article>
+
+                    <article class="step">
+                        <div class="step-num">03</div>
+                        <div>
+                            <h3>最后做复盘</h3>
+                            <p>每轮学习结束后再补充阶段回顾，让页面既能承接新知识，也能帮助后续复习回看。</p>
+                        </div>
+                    </article>
+                </div>
+            </section>
+
+            <section class="content-section reveal" id="queue">
+                <div class="section-label">Next Queue</div>
+                <h2>待补充清单</h2>
+                <p class="intro">
+                    这部分先放最近最值得补进去的内容，避免后面想写时又不知道从哪里下手。
+                </p>
+
+                <div class="card-grid-2">
+                    <article class="mini-card">
+                        <div class="card-small-kicker">Upcoming</div>
+                        <h3>近期准备补充</h3>
+                        <ul class="list">
+                            <li>系统解剖中的重点部位图谱</li>
+                            <li>生理学中的核心调节机制</li>
+                            <li>病理学基础概念对照表</li>
+                            <li>阶段复习时的错点回顾</li>
+                        </ul>
+                    </article>
+
+                    <article class="mini-card">
+                        <div class="card-small-kicker">Reminder</div>
+                        <h3>写给自己的提醒</h3>
+                        <p>
+                            不要把这一页做成“资料堆放处”。它最后应该长成一个能帮助自己复习、
+                            能快速定位重点、也能清楚看到学习进度的工作台。
+                        </p>
+                    </article>
+                </div>
+            </section>
+        </div>
+    </div>
+</main>
+
+
+    <footer class="container footer">
+        <div>© 2026 任世豪 · Personal Website</div>
+        <div><a href="mailto:renshihao76@outlook.com">renshihao76@outlook.com</a></div>
     </footer>
+
+
+<script>
+    const header = document.getElementById("siteHeader");
+    const onScroll = () => {
+        if (window.scrollY > 12) {
+            header.classList.add("scrolled");
+        } else {
+            header.classList.remove("scrolled");
+        }
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll);
+
+    if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("show");
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.14 });
+
+        document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
+    } else {
+        document.querySelectorAll(".reveal").forEach((el) => el.classList.add("show"));
+    }
+</script>
+
 </body>
 </html>
