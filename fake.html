@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Archive</title>
+    <meta name="robots" content="noindex,nofollow,noarchive" />
+    <style>
+        :root {
+            --bg: #f4f6f9;
+            --bg-soft: #eef2f6;
+            --surface: rgba(255,255,255,0.82);
+            --line: rgba(15, 23, 42, 0.08);
+            --text: #0f172a;
+            --text-soft: #475569;
+            --text-faint: #64748b;
+            --shadow: 0 18px 48px rgba(15, 23, 42, 0.08);
+            --radius-xl: 28px;
+            --radius-lg: 20px;
+            --radius-md: 14px;
+            --container: 980px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(circle at 12% 18%, rgba(255,255,255,0.78), transparent 24%),
+                radial-gradient(circle at 88% 10%, rgba(255,255,255,0.5), transparent 24%),
+                linear-gradient(180deg, var(--bg) 0%, var(--bg-soft) 100%);
+            min-height: 100vh;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(15,23,42,0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(15,23,42,0.02) 1px, transparent 1px);
+            background-size: 38px 38px;
+            mask-image: radial-gradient(circle at center, black 40%, transparent 90%);
+            -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 90%);
+            pointer-events: none;
+            opacity: 0.16;
+        }
+
+        a { color: inherit; text-decoration: none; }
+
+        .container {
+            width: min(var(--container), 92%);
+            margin: 0 auto;
+        }
+
+        .site-header {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            padding: 18px 0;
+            backdrop-filter: blur(14px);
+            background: rgba(244,246,249,0.72);
+            border-bottom: 1px solid rgba(15,23,42,0.04);
+        }
+
+        .nav-shell {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .brand {
+            font-size: 16px;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+            color: var(--text-soft);
+        }
+
+        .back-link {
+            font-size: 14px;
+            color: var(--text-faint);
+            transition: opacity 0.25s ease, transform 0.25s ease;
+        }
+
+        .back-link:hover {
+            opacity: 0.72;
+            transform: translateY(-1px);
+        }
+
+        .hero {
+            padding: 56px 0 26px;
+        }
+
+        .eyebrow {
+            display: inline-block;
+            padding: 10px 14px;
+            border-radius: 999px;
+            background: rgba(255,255,255,0.74);
+            border: 1px solid rgba(255,255,255,0.7);
+            color: var(--text-soft);
+            font-size: 13px;
+            margin-bottom: 18px;
+            box-shadow: 0 8px 24px rgba(255,255,255,0.28);
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            font-size: clamp(42px, 7vw, 72px);
+            line-height: 1.04;
+            letter-spacing: -1.5px;
+            margin-bottom: 18px;
+        }
+
+        .hero p {
+            max-width: 760px;
+            font-size: 19px;
+            line-height: 1.9;
+            color: var(--text-soft);
+        }
+
+        .note-bar {
+            margin-top: 18px;
+            font-size: 14px;
+            color: var(--text-faint);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 22px;
+            padding: 30px 0 28px;
+        }
+
+        .panel {
+            position: relative;
+            background: linear-gradient(180deg, rgba(255,255,255,0.86) 0%, rgba(255,255,255,0.74) 100%);
+            border: 1px solid rgba(255,255,255,0.62);
+            backdrop-filter: blur(12px);
+            border-radius: var(--radius-xl);
+            padding: 24px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .panel::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.24), transparent 46%);
+            pointer-events: none;
+        }
+
+        .panel-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 14px;
+        }
+
+        .panel h2 {
+            font-size: 24px;
+            letter-spacing: -0.5px;
+        }
+
+        .pill {
+            padding: 7px 10px;
+            border-radius: 999px;
+            background: rgba(15,23,42,0.05);
+            color: var(--text-faint);
+            font-size: 12px;
+        }
+
+        .panel p.desc {
+            font-size: 15px;
+            line-height: 1.8;
+            color: var(--text-faint);
+            margin-bottom: 14px;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 320px;
+            border: 1px solid rgba(15,23,42,0.08);
+            border-radius: var(--radius-lg);
+            background: rgba(255,255,255,0.78);
+            padding: 18px;
+            font: inherit;
+            font-size: 15px;
+            line-height: 1.85;
+            color: var(--text);
+            resize: vertical;
+            outline: none;
+            transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+        }
+
+        textarea:focus {
+            border-color: rgba(15,23,42,0.16);
+            box-shadow: 0 0 0 4px rgba(15,23,42,0.04);
+        }
+
+        .toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 18px;
+        }
+
+        .toolbar-left,
+        .toolbar-right {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 44px;
+            padding: 0 16px;
+            border-radius: var(--radius-md);
+            border: 1px solid rgba(15,23,42,0.08);
+            background: rgba(255,255,255,0.82);
+            color: var(--text);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.28s ease, box-shadow 0.28s ease, background 0.28s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            background: rgba(255,255,255,0.94);
+            box-shadow: 0 12px 24px rgba(15,23,42,0.08);
+        }
+
+        .status {
+            font-size: 13px;
+            color: var(--text-faint);
+        }
+
+        .tips {
+            padding: 6px 0 50px;
+            color: var(--text-faint);
+            font-size: 14px;
+            line-height: 1.9;
+        }
+
+        .tips strong {
+            color: var(--text-soft);
+        }
+
+        @media (max-width: 860px) {
+            .grid { grid-template-columns: 1fr; }
+            .hero p { font-size: 17px; }
+            textarea { min-height: 220px; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation: none !important;
+                transition: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <div class="container nav-shell">
+            <div class="brand">Archive</div>
+            <a class="back-link" href="index.html">返回首页</a>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="hero">
+            <div class="eyebrow">Unlisted page · local save</div>
+            <h1>私人存放页</h1>
+            <p>
+                这页默认不放进公开导航里，只作为一个不显眼的私人角落。
+                下面两个编辑区会自动保存在<strong>当前浏览器</strong>，不用每次都改 HTML 再提交。
+            </p>
+            <div class="note-bar">这个页面只是“不明显”，不是“真正私密”。不要放密码、验证码、密钥或带 token 的链接。</div>
+        </section>
+
+        <section class="grid">
+            <section class="panel">
+                <div class="panel-head">
+                    <h2>网址收纳</h2>
+                    <div class="pill">Links</div>
+                </div>
+                <p class="desc">每行放一个网址，前面也可以顺手加一句备注。</p>
+                <textarea id="linkBox" placeholder="例：&#10;论文资料库 https://example.com&#10;某个个人收藏页 https://example.org"></textarea>
+            </section>
+
+            <section class="panel">
+                <div class="panel-head">
+                    <h2>随手记录</h2>
+                    <div class="pill">Notes</div>
+                </div>
+                <p class="desc">写你想记下的内容、草稿、提醒、临时想法。</p>
+                <textarea id="noteBox" placeholder="这里写内容。"></textarea>
+            </section>
+        </section>
+
+        <section class="toolbar">
+            <div class="toolbar-left">
+                <button class="btn" id="exportBtn" type="button">导出备份</button>
+                <button class="btn" id="copyBtn" type="button">复制全部内容</button>
+                <button class="btn" id="clearBtn" type="button">清空本地内容</button>
+            </div>
+            <div class="toolbar-right">
+                <div class="status" id="status">未修改</div>
+            </div>
+        </section>
+
+        <section class="tips">
+            <p><strong>怎么用：</strong>把这个文件上传到仓库根目录，但不要把它加进导航栏。之后直接访问并收藏这个地址就行。</p>
+            <p><strong>注意：</strong>这里的内容保存在你当前设备的当前浏览器里。换浏览器、换电脑、清缓存，内容可能就没了，所以重要东西记得点一次“导出备份”。</p>
+        </section>
+    </main>
+
+    <script>
+        const linkBox = document.getElementById('linkBox');
+        const noteBox = document.getElementById('noteBox');
+        const status = document.getElementById('status');
+        const exportBtn = document.getElementById('exportBtn');
+        const copyBtn = document.getElementById('copyBtn');
+        const clearBtn = document.getElementById('clearBtn');
+
+        const KEY_LINKS = 'renshihao_hidden_links_v1';
+        const KEY_NOTES = 'renshihao_hidden_notes_v1';
+
+        linkBox.value = localStorage.getItem(KEY_LINKS) || '';
+        noteBox.value = localStorage.getItem(KEY_NOTES) || '';
+
+        let saveTimer = null;
+
+        function setStatus(text) {
+            status.textContent = text;
+        }
+
+        function saveAll() {
+            localStorage.setItem(KEY_LINKS, linkBox.value);
+            localStorage.setItem(KEY_NOTES, noteBox.value);
+            setStatus('已自动保存到当前浏览器');
+        }
+
+        function scheduleSave() {
+            setStatus('正在保存…');
+            clearTimeout(saveTimer);
+            saveTimer = setTimeout(saveAll, 180);
+        }
+
+        linkBox.addEventListener('input', scheduleSave);
+        noteBox.addEventListener('input', scheduleSave);
+
+        exportBtn.addEventListener('click', () => {
+            const content = [
+                '【网址收纳】',
+                linkBox.value || '(空)',
+                '',
+                '【随手记录】',
+                noteBox.value || '(空)'
+            ].join('\n');
+
+            const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'archive-backup.txt';
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            URL.revokeObjectURL(url);
+            setStatus('已导出备份');
+        });
+
+        copyBtn.addEventListener('click', async () => {
+            const content = [
+                '【网址收纳】',
+                linkBox.value || '(空)',
+                '',
+                '【随手记录】',
+                noteBox.value || '(空)'
+            ].join('\n');
+
+            try {
+                await navigator.clipboard.writeText(content);
+                setStatus('已复制到剪贴板');
+            } catch (e) {
+                setStatus('复制失败，请手动复制');
+            }
+        });
+
+        clearBtn.addEventListener('click', () => {
+            const ok = confirm('确认清空当前浏览器保存的内容吗？这不会删除网页文件，但会清掉这里已经写的本地内容。');
+            if (!ok) return;
+            linkBox.value = '';
+            noteBox.value = '';
+            localStorage.removeItem(KEY_LINKS);
+            localStorage.removeItem(KEY_NOTES);
+            setStatus('已清空本地内容');
+        });
+    </script>
+</body>
+</html>
