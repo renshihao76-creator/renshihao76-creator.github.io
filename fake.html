@@ -3,35 +3,35 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Archive</title>
-    <meta name="robots" content="noindex,nofollow,noarchive" />
+    <title>Field Log</title>
+    <meta name="robots" content="noindex, nofollow, noarchive, nosnippet" />
     <style>
         :root {
-            --bg: #f4f6f9;
-            --bg-soft: #eef2f6;
-            --surface: rgba(255,255,255,0.82);
-            --line: rgba(15, 23, 42, 0.08);
+            --bg: #f5f7fa;
+            --bg-soft: #eef2f7;
             --text: #0f172a;
             --text-soft: #475569;
             --text-faint: #64748b;
-            --shadow: 0 18px 48px rgba(15, 23, 42, 0.08);
-            --radius-xl: 28px;
+            --line: rgba(15, 23, 42, 0.08);
+            --surface: rgba(255,255,255,0.88);
+            --surface-soft: rgba(255,255,255,0.72);
+            --shadow-lg: 0 24px 70px rgba(15,23,42,0.08);
+            --shadow-md: 0 12px 36px rgba(15,23,42,0.06);
+            --radius-xl: 26px;
             --radius-lg: 20px;
-            --radius-md: 14px;
-            --container: 980px;
+            --container: 1120px;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
             color: var(--text);
             background:
-                radial-gradient(circle at 12% 18%, rgba(255,255,255,0.78), transparent 24%),
-                radial-gradient(circle at 88% 10%, rgba(255,255,255,0.5), transparent 24%),
+                radial-gradient(circle at 14% 14%, rgba(255,255,255,0.75), transparent 24%),
+                radial-gradient(circle at 88% 14%, rgba(255,255,255,0.42), transparent 24%),
                 linear-gradient(180deg, var(--bg) 0%, var(--bg-soft) 100%);
-            min-height: 100vh;
         }
 
         body::before {
@@ -39,226 +39,193 @@
             position: fixed;
             inset: 0;
             background-image:
-                linear-gradient(rgba(15,23,42,0.02) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(15,23,42,0.02) 1px, transparent 1px);
-            background-size: 38px 38px;
-            mask-image: radial-gradient(circle at center, black 40%, transparent 90%);
-            -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 90%);
+                linear-gradient(rgba(15,23,42,0.022) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(15,23,42,0.022) 1px, transparent 1px);
+            background-size: 34px 34px;
+            mask-image: radial-gradient(circle at center, black 46%, transparent 92%);
+            -webkit-mask-image: radial-gradient(circle at center, black 46%, transparent 92%);
             pointer-events: none;
+            z-index: -2;
             opacity: 0.16;
         }
 
         a { color: inherit; text-decoration: none; }
+        .container { width: min(var(--container), 92%); margin: 0 auto; }
 
-        .container {
-            width: min(var(--container), 92%);
-            margin: 0 auto;
-        }
-
-        .site-header {
-            position: sticky;
-            top: 0;
-            z-index: 20;
-            padding: 18px 0;
-            backdrop-filter: blur(14px);
-            background: rgba(244,246,249,0.72);
-            border-bottom: 1px solid rgba(15,23,42,0.04);
-        }
-
-        .nav-shell {
+        .header {
+            padding: 24px 0 18px;
             display: flex;
-            align-items: center;
             justify-content: space-between;
+            align-items: center;
         }
 
-        .brand {
-            font-size: 16px;
-            font-weight: 700;
-            letter-spacing: 0.3px;
-            color: var(--text-soft);
+        .header-title {
+            font-size: 15px;
+            color: var(--text-faint);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
         }
 
         .back-link {
             font-size: 14px;
-            color: var(--text-faint);
+            color: var(--text-soft);
+            opacity: 0.82;
             transition: opacity 0.25s ease, transform 0.25s ease;
         }
 
-        .back-link:hover {
-            opacity: 0.72;
-            transform: translateY(-1px);
-        }
+        .back-link:hover { opacity: 1; transform: translateY(-1px); }
 
         .hero {
-            padding: 56px 0 26px;
+            padding: 24px 0 34px;
         }
 
         .eyebrow {
             display: inline-block;
-            padding: 10px 14px;
+            padding: 9px 12px;
             border-radius: 999px;
-            background: rgba(255,255,255,0.74);
-            border: 1px solid rgba(255,255,255,0.7);
-            color: var(--text-soft);
+            background: rgba(255,255,255,0.76);
+            border: 1px solid rgba(255,255,255,0.72);
             font-size: 13px;
-            margin-bottom: 18px;
-            box-shadow: 0 8px 24px rgba(255,255,255,0.28);
-            backdrop-filter: blur(10px);
+            color: var(--text-soft);
+            margin-bottom: 16px;
         }
 
         h1 {
-            font-size: clamp(42px, 7vw, 72px);
-            line-height: 1.04;
+            font-size: clamp(42px, 6vw, 72px);
+            line-height: 1.05;
             letter-spacing: -1.5px;
-            margin-bottom: 18px;
+            margin-bottom: 14px;
+            text-wrap: balance;
         }
 
         .hero p {
             max-width: 760px;
-            font-size: 19px;
+            font-size: 18px;
             line-height: 1.9;
             color: var(--text-soft);
         }
 
-        .note-bar {
-            margin-top: 18px;
-            font-size: 14px;
-            color: var(--text-faint);
-        }
-
-        .grid {
+        .layout {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1.02fr 0.98fr;
             gap: 22px;
-            padding: 30px 0 28px;
+            padding: 18px 0 70px;
         }
 
         .panel {
-            position: relative;
-            background: linear-gradient(180deg, rgba(255,255,255,0.86) 0%, rgba(255,255,255,0.74) 100%);
+            background: linear-gradient(180deg, rgba(255,255,255,0.86) 0%, rgba(255,255,255,0.76) 100%);
             border: 1px solid rgba(255,255,255,0.62);
-            backdrop-filter: blur(12px);
             border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-lg);
+            backdrop-filter: blur(14px);
             padding: 24px;
-            box-shadow: var(--shadow);
-            overflow: hidden;
-        }
-
-        .panel::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, rgba(255,255,255,0.24), transparent 46%);
-            pointer-events: none;
-        }
-
-        .panel-head {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 14px;
         }
 
         .panel h2 {
-            font-size: 24px;
+            font-size: 28px;
+            margin-bottom: 10px;
             letter-spacing: -0.5px;
         }
 
-        .pill {
-            padding: 7px 10px;
+        .panel-intro {
+            color: var(--text-faint);
+            font-size: 15px;
+            line-height: 1.8;
+            margin-bottom: 18px;
+        }
+
+        .stack {
+            display: grid;
+            gap: 14px;
+        }
+
+        .item {
+            background: rgba(255,255,255,0.72);
+            border: 1px solid rgba(15,23,42,0.06);
+            border-radius: var(--radius-lg);
+            padding: 18px 18px;
+            transition: transform 0.26s ease, box-shadow 0.26s ease;
+        }
+
+        .item:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .item .tag {
+            display: inline-block;
+            padding: 6px 9px;
             border-radius: 999px;
             background: rgba(15,23,42,0.05);
             color: var(--text-faint);
             font-size: 12px;
+            margin-bottom: 10px;
         }
 
-        .panel p.desc {
-            font-size: 15px;
+        .item h3 {
+            font-size: 20px;
+            margin-bottom: 8px;
+        }
+
+        .item p {
+            color: var(--text-soft);
             line-height: 1.8;
-            color: var(--text-faint);
-            margin-bottom: 14px;
-        }
-
-        textarea {
-            width: 100%;
-            min-height: 320px;
-            border: 1px solid rgba(15,23,42,0.08);
-            border-radius: var(--radius-lg);
-            background: rgba(255,255,255,0.78);
-            padding: 18px;
-            font: inherit;
             font-size: 15px;
-            line-height: 1.85;
+            margin-bottom: 10px;
+        }
+
+        .item a {
             color: var(--text);
-            resize: vertical;
-            outline: none;
-            transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
-        }
-
-        textarea:focus {
-            border-color: rgba(15,23,42,0.16);
-            box-shadow: 0 0 0 4px rgba(15,23,42,0.04);
-        }
-
-        .toolbar {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            align-items: center;
-            justify-content: space-between;
-            margin-top: 18px;
-        }
-
-        .toolbar-left,
-        .toolbar-right {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            align-items: center;
-        }
-
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 44px;
-            padding: 0 16px;
-            border-radius: var(--radius-md);
-            border: 1px solid rgba(15,23,42,0.08);
-            background: rgba(255,255,255,0.82);
-            color: var(--text);
+            font-weight: 700;
             font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.28s ease, box-shadow 0.28s ease, background 0.28s ease;
+            word-break: break-all;
         }
 
-        .btn:hover {
-            transform: translateY(-2px);
-            background: rgba(255,255,255,0.94);
-            box-shadow: 0 12px 24px rgba(15,23,42,0.08);
+        .note-area {
+            display: grid;
+            gap: 16px;
         }
 
-        .status {
+        .note-block {
+            background: rgba(255,255,255,0.72);
+            border: 1px solid rgba(15,23,42,0.06);
+            border-radius: var(--radius-lg);
+            padding: 18px 18px 16px;
+        }
+
+        .note-block h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .note-block p, .note-block li {
+            color: var(--text-soft);
+            line-height: 1.9;
+            font-size: 15px;
+        }
+
+        .note-block ul {
+            padding-left: 18px;
+        }
+
+        .hint {
+            margin-top: 16px;
+            font-size: 13px;
+            color: var(--text-faint);
+            line-height: 1.8;
+        }
+
+        .footer {
+            padding: 0 0 48px;
+            text-align: center;
             font-size: 13px;
             color: var(--text-faint);
         }
 
-        .tips {
-            padding: 6px 0 50px;
-            color: var(--text-faint);
-            font-size: 14px;
-            line-height: 1.9;
-        }
-
-        .tips strong {
-            color: var(--text-soft);
-        }
-
-        @media (max-width: 860px) {
-            .grid { grid-template-columns: 1fr; }
-            .hero p { font-size: 17px; }
-            textarea { min-height: 220px; }
+        @media (max-width: 900px) {
+            .layout {
+                grid-template-columns: 1fr;
+            }
         }
 
         @media (prefers-reduced-motion: reduce) {
@@ -270,143 +237,84 @@
     </style>
 </head>
 <body>
-    <header class="site-header">
-        <div class="container nav-shell">
-            <div class="brand">Archive</div>
+    <div class="container">
+        <header class="header">
+            <div class="header-title">Field Log</div>
             <a class="back-link" href="index.html">返回首页</a>
-        </div>
-    </header>
+        </header>
 
-    <main class="container">
         <section class="hero">
-            <div class="eyebrow">Unlisted page · local save</div>
-            <h1>私人存放页</h1>
+            <div class="eyebrow">Hidden Page</div>
+            <h1>个人收纳页</h1>
             <p>
-                这页默认不放进公开导航里，只作为一个不显眼的私人角落。
-                下面两个编辑区会自动保存在<strong>当前浏览器</strong>，不用每次都改 HTML 再提交。
+                这里适合放你自己常用但不想挂在导航里的链接、备忘和小块内容。
+                这个页面不会出现在导航里，但它依然是公开网页，所以别放真正敏感的信息。
             </p>
-            <div class="note-bar">这个页面只是“不明显”，不是“真正私密”。不要放密码、验证码、密钥或带 token 的链接。</div>
         </section>
 
-        <section class="grid">
-            <section class="panel">
-                <div class="panel-head">
-                    <h2>网址收纳</h2>
-                    <div class="pill">Links</div>
+        <section class="layout">
+            <article class="panel">
+                <h2>网址收纳</h2>
+                <p class="panel-intro">下面这些内容是直接写进网页文件里的，所以换浏览器、换设备，只要打开这个页面都能看到同样内容。</p>
+
+                <div class="stack">
+                    <div class="item">
+                        <div class="tag">Link 01</div>
+                        <h3>这里放你的第一个网址</h3>
+                        <p>可以写一句说明，比如这个网址是做什么的、为什么留在这里。</p>
+                        <a href="https://example.com" target="_blank" rel="noopener noreferrer">https://example.com</a>
+                    </div>
+
+                    <div class="item">
+                        <div class="tag">Link 02</div>
+                        <h3>这里放你的第二个网址</h3>
+                        <p>你可以把收藏页、论文页、工具页、资源页都放在这里。</p>
+                        <a href="https://example.org" target="_blank" rel="noopener noreferrer">https://example.org</a>
+                    </div>
+
+                    <div class="item">
+                        <div class="tag">Link 03</div>
+                        <h3>这里放你的第三个网址</h3>
+                        <p>如果暂时不需要，就先留一个占位，后面直接改这一块就行。</p>
+                        <a href="https://example.net" target="_blank" rel="noopener noreferrer">https://example.net</a>
+                    </div>
                 </div>
-                <p class="desc">每行放一个网址，前面也可以顺手加一句备注。</p>
-                <textarea id="linkBox" placeholder="例：&#10;论文资料库 https://example.com&#10;某个个人收藏页 https://example.org"></textarea>
-            </section>
+            </article>
 
-            <section class="panel">
-                <div class="panel-head">
-                    <h2>随手记录</h2>
-                    <div class="pill">Notes</div>
+            <article class="panel">
+                <h2>随手内容</h2>
+                <p class="panel-intro">右边适合放一点简短笔记、提醒、分类说明，或者你自己定义的一套小目录。</p>
+
+                <div class="note-area">
+                    <div class="note-block">
+                        <h3>临时备忘</h3>
+                        <p>这里可以写一段你想留给自己的简短内容，比如某个入口、某个项目状态、某个待处理事项。</p>
+                    </div>
+
+                    <div class="note-block">
+                        <h3>分类清单</h3>
+                        <ul>
+                            <li>研究相关链接</li>
+                            <li>学习相关链接</li>
+                            <li>写作和资料整理入口</li>
+                        </ul>
+                    </div>
+
+                    <div class="note-block">
+                        <h3>使用提醒</h3>
+                        <p>想修改内容时，直接改这个文件里的文字和链接，再上传覆盖就行。因为内容写在 HTML 本身里，所以不会出现“换浏览器内容没了”的情况。</p>
+                    </div>
                 </div>
-                <p class="desc">写你想记下的内容、草稿、提醒、临时想法。</p>
-                <textarea id="noteBox" placeholder="这里写内容。"></textarea>
-            </section>
+
+                <p class="hint">
+                    提醒：这个页面只是“入口隐蔽”，不是“真正私密”。如果别人知道文件名，或者直接翻你的公开仓库，理论上还是能找到它。
+                </p>
+            </article>
         </section>
 
-        <section class="toolbar">
-            <div class="toolbar-left">
-                <button class="btn" id="exportBtn" type="button">导出备份</button>
-                <button class="btn" id="copyBtn" type="button">复制全部内容</button>
-                <button class="btn" id="clearBtn" type="button">清空本地内容</button>
-            </div>
-            <div class="toolbar-right">
-                <div class="status" id="status">未修改</div>
-            </div>
-        </section>
-
-        <section class="tips">
-            <p><strong>怎么用：</strong>把这个文件上传到仓库根目录，但不要把它加进导航栏。之后直接访问并收藏这个地址就行。</p>
-            <p><strong>注意：</strong>这里的内容保存在你当前设备的当前浏览器里。换浏览器、换电脑、清缓存，内容可能就没了，所以重要东西记得点一次“导出备份”。</p>
-        </section>
-    </main>
-
-    <script>
-        const linkBox = document.getElementById('linkBox');
-        const noteBox = document.getElementById('noteBox');
-        const status = document.getElementById('status');
-        const exportBtn = document.getElementById('exportBtn');
-        const copyBtn = document.getElementById('copyBtn');
-        const clearBtn = document.getElementById('clearBtn');
-
-        const KEY_LINKS = 'renshihao_hidden_links_v1';
-        const KEY_NOTES = 'renshihao_hidden_notes_v1';
-
-        linkBox.value = localStorage.getItem(KEY_LINKS) || '';
-        noteBox.value = localStorage.getItem(KEY_NOTES) || '';
-
-        let saveTimer = null;
-
-        function setStatus(text) {
-            status.textContent = text;
-        }
-
-        function saveAll() {
-            localStorage.setItem(KEY_LINKS, linkBox.value);
-            localStorage.setItem(KEY_NOTES, noteBox.value);
-            setStatus('已自动保存到当前浏览器');
-        }
-
-        function scheduleSave() {
-            setStatus('正在保存…');
-            clearTimeout(saveTimer);
-            saveTimer = setTimeout(saveAll, 180);
-        }
-
-        linkBox.addEventListener('input', scheduleSave);
-        noteBox.addEventListener('input', scheduleSave);
-
-        exportBtn.addEventListener('click', () => {
-            const content = [
-                '【网址收纳】',
-                linkBox.value || '(空)',
-                '',
-                '【随手记录】',
-                noteBox.value || '(空)'
-            ].join('\n');
-
-            const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'archive-backup.txt';
-            document.body.appendChild(a);
-            a.click();
-            a.remove();
-            URL.revokeObjectURL(url);
-            setStatus('已导出备份');
-        });
-
-        copyBtn.addEventListener('click', async () => {
-            const content = [
-                '【网址收纳】',
-                linkBox.value || '(空)',
-                '',
-                '【随手记录】',
-                noteBox.value || '(空)'
-            ].join('\n');
-
-            try {
-                await navigator.clipboard.writeText(content);
-                setStatus('已复制到剪贴板');
-            } catch (e) {
-                setStatus('复制失败，请手动复制');
-            }
-        });
-
-        clearBtn.addEventListener('click', () => {
-            const ok = confirm('确认清空当前浏览器保存的内容吗？这不会删除网页文件，但会清掉这里已经写的本地内容。');
-            if (!ok) return;
-            linkBox.value = '';
-            noteBox.value = '';
-            localStorage.removeItem(KEY_LINKS);
-            localStorage.removeItem(KEY_NOTES);
-            setStatus('已清空本地内容');
-        });
-    </script>
+        <footer class="footer">
+            Field Log · quiet access page
+        </footer>
+    </div>
 </body>
 </html>
