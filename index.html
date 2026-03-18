@@ -863,6 +863,44 @@
             transform: none !important;
         }
     }         
+
+    .footer-secret {
+        display: inline-block;
+        padding: 4px 8px;
+        border-radius: 999px;
+        cursor: default;
+        user-select: none;
+        transition: opacity 0.25s ease, background 0.25s ease, transform 0.25s ease;
+    }
+
+    .footer-secret:hover {
+        opacity: 0.92;
+        background: rgba(255, 255, 255, 0.42);
+        transform: translateY(-1px);
+    }
+
+    .hint-toast {
+        position: fixed;
+        left: 50%;
+        bottom: 28px;
+        transform: translateX(-50%) translateY(14px);
+        background: rgba(17, 24, 39, 0.92);
+        color: #fff;
+        padding: 11px 15px;
+        border-radius: 999px;
+        font-size: 13px;
+        box-shadow: 0 18px 42px rgba(15, 23, 42, 0.16);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.28s ease, transform 0.28s ease;
+        z-index: 120;
+    }
+
+    .hint-toast.show {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+
 </style>
 
 </head>
@@ -915,7 +953,7 @@
                     renshihao76@outlook.com<br>
                     renshihao76@gmail.com<br>
                     3454598395@qq.com
-                <div>   
+                </div>
             </div>
         </aside>
     </section>
@@ -1004,9 +1042,11 @@
 
 
     <footer class="container footer">
-        <div>© 2026 任世豪 · Personal Website</div>
+        <div><span class="footer-secret" id="secretTrigger">© 2026 任世豪 · Personal Website</span></div>
         <div><a href="mailto:renshihao76@outlook.com">renshihao76@outlook.com</a></div>
     </footer>
+
+    <div class="hint-toast" id="hintToast">已进入隐藏页</div>
 
 
 <script>
@@ -1034,6 +1074,40 @@
         document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
     } else {
         document.querySelectorAll(".reveal").forEach((el) => el.classList.add("show"));
+    }
+
+    const trigger = document.getElementById("secretTrigger");
+    const hintToast = document.getElementById("hintToast");
+    let clickCount = 0;
+    let clickTimer = null;
+
+    function showToast(text) {
+        if (!hintToast) return;
+        hintToast.textContent = text;
+        hintToast.classList.add("show");
+        clearTimeout(showToast._timer);
+        showToast._timer = setTimeout(() => {
+            hintToast.classList.remove("show");
+        }, 1200);
+    }
+
+    if (trigger) {
+        trigger.addEventListener("click", () => {
+            clickCount += 1;
+
+            clearTimeout(clickTimer);
+            clickTimer = setTimeout(() => {
+                clickCount = 0;
+            }, 1800);
+
+            if (clickCount === 5) {
+                clickCount = 0;
+                showToast("已进入隐藏页");
+                setTimeout(() => {
+                    window.location.href = "field-log-9c7m.html";
+                }, 260);
+            }
+        });
     }
 </script>
 
